@@ -116,6 +116,13 @@
             txtIngName.Focus();
         }
 
-
+        private void UpdateIngredientGrid()
+        {
+            dataGridView1.Rows.Clear();
+            foreach (var ing in _ingredients)
+            {
+                dataGridView1.Rows.Add(ing.ingredientName, ing.quantity, ing.unit);
+            }
+        }
     }
 }
