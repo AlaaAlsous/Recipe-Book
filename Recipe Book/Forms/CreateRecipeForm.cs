@@ -49,6 +49,35 @@
                     return;
                 }
             }
+
+            var ingredientList = _ingredients;
+            if (ingredientList == null || ingredientList.Count == 0)
+            {
+                MessageBox.Show("No ingredients added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var categoryList = new List<string>();
+            if (!string.IsNullOrWhiteSpace(categories))
+            {
+                foreach (var c in categories.Split(','))
+                {
+                    var cat = c.Trim();
+                    if (!string.IsNullOrEmpty(cat))
+                        categoryList.Add(cat);
+                }
+            }
+
+            try
+            {
+                await _recipeService.AddRecipeAsync(name, description!, instructions!, ingredientList, categoryList);
+                MessageBox.Show("Recipe saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not save recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
