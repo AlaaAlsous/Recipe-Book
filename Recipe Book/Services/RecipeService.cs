@@ -13,19 +13,19 @@ namespace Recipe_Book.Services
             _context = context;
         }
 
-		public async Task<bool> RecipeExistsAsync(string name)
-		{
-			if (string.IsNullOrWhiteSpace(name))
-				return false;
+        public async Task<bool> RecipeExistsAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
 
-			var lookup = name.Trim().ToLowerInvariant();
-			return await _context.Recipes.AnyAsync(r => r.Name.ToLower() == lookup);
-		}
+            var lookup = name.Trim().ToLowerInvariant();
+            return await _context.Recipes.AnyAsync(r => r.Name.ToLower() == lookup);
+        }
 
         public async Task AddRecipeAsync(
             string recipeName,
-            string description,
-            string instructions,
+            string? description,
+            string? instructions,
             List<(string ingredientName, decimal quantity, string unit)> ingredients,
             List<string> categories)
         {
@@ -41,7 +41,7 @@ namespace Recipe_Book.Services
             var ingredientList = (ingredients ?? new List<(string ingredientName, decimal quantity, string unit)>())
                 .Select(i => (
                     ingredientName: i.ingredientName?.Trim() ?? string.Empty,
-                    quantity: i.quantity,
+                    i.quantity,
                     unit: string.IsNullOrWhiteSpace(i.unit) ? "Unit" : i.unit.Trim()
                 ))
                 .Where(i => !string.IsNullOrEmpty(i.ingredientName))
@@ -58,13 +58,13 @@ namespace Recipe_Book.Services
                     .ToListAsync();
             }
 
-            var categoryNames = (categories ?? new List<string>())
+            var categoryNames = (categories ?? new())
                 .Select(c => c?.Trim())
                 .Where(c => !string.IsNullOrEmpty(c))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-            var categoryNamesLower = categoryNames.Select(c => c.ToLowerInvariant()).ToList();
+            var categoryNamesLower = categoryNames.Select(c => c!.ToLowerInvariant()).ToList();
             var existingCategories = new List<Category>();
             if (categoryNamesLower.Count > 0)
             {
@@ -98,7 +98,7 @@ namespace Recipe_Book.Services
 
                 if (category == null)
                 {
-                    category = new Category { Name = cat };
+                    category = new Category { Name = cat! };
                     _context.Categories.Add(category);
                 }
 
@@ -136,8 +136,8 @@ namespace Recipe_Book.Services
         public async Task UpdateRecipeAsync(
             int recipeId,
             string recipeName,
-            string description,
-            string instructions,
+            string? description,
+            string? instructions,
             List<(string ingredientName, decimal quantity, string unit)> ingredients,
             List<string> categories)
         {
@@ -158,7 +158,7 @@ namespace Recipe_Book.Services
             _context.RecipeCategories.RemoveRange(recipe.RecipeCategories);
 
             var ingredientList = (ingredients ?? new List<(string ingredientName, decimal quantity, string unit)>())
-                .Select(i => (ingredientName: i.ingredientName?.Trim() ?? string.Empty, quantity: i.quantity, unit: string.IsNullOrWhiteSpace(i.unit) ? "Unit" : i.unit.Trim()))
+                .Select(i => (ingredientName: i.ingredientName?.Trim() ?? string.Empty, i.quantity, unit: string.IsNullOrWhiteSpace(i.unit) ? "Unit" : i.unit.Trim()))
                 .Where(i => !string.IsNullOrEmpty(i.ingredientName))
                 .GroupBy(i => i.ingredientName, StringComparer.OrdinalIgnoreCase)
                 .Select(g => g.First())
@@ -179,7 +179,7 @@ namespace Recipe_Book.Services
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToList();
 
-            var categoryNamesLower = categoryNames.Select(c => c.ToLowerInvariant()).ToList();
+            var categoryNamesLower = categoryNames.Select(c => c!.ToLowerInvariant()).ToList();
             var existingCategories = new List<Category>();
             if (categoryNamesLower.Count > 0)
             {
@@ -213,7 +213,7 @@ namespace Recipe_Book.Services
 
                 if (category == null)
                 {
-                    category = new Category { Name = cat };
+                    category = new Category { Name = cat! };
                     _context.Categories.Add(category);
                 }
 
