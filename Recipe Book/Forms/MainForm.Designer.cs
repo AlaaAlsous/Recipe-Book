@@ -108,6 +108,7 @@
             // 
             // dgvRecipes
             // 
+            dgvRecipes.AllowUserToAddRows = false;
             dgvRecipes.BackgroundColor = Color.PaleTurquoise;
             dgvRecipes.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;

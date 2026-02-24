@@ -3,7 +3,7 @@
     public partial class CreateRecipeForm : Form
     {
         private readonly Services.RecipeService _recipeService;
-        
+
         private readonly List<(string ingredientName, decimal quantity, string unit)> _ingredients = new();
         public CreateRecipeForm(Services.RecipeService recipeService)
         {
@@ -21,8 +21,7 @@
                 return;
             }
 
-            var existingRecipes = await _recipeService.GetAllRecipesAsync();
-            if (existingRecipes.Any(r => string.Equals(r.Name, name, StringComparison.OrdinalIgnoreCase)))
+            if (await _recipeService.RecipeExistsAsync(name))
             {
                 MessageBox.Show("A recipe with that name already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;

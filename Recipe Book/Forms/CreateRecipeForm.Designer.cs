@@ -286,7 +286,7 @@
             // 
             // BtnAddIng
             // 
-            BtnAddIng.Location = new Point(969, 314);
+            BtnAddIng.Location = new Point(958, 314);
             BtnAddIng.Name = "BtnAddIng";
             BtnAddIng.Size = new Size(94, 29);
             BtnAddIng.TabIndex = 17;
