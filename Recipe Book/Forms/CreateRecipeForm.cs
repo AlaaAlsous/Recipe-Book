@@ -31,6 +31,24 @@
             var description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text.Trim();
             var instructions = string.IsNullOrWhiteSpace(txtInstructions.Text) ? null : txtInstructions.Text.Trim();
             var categories = string.IsNullOrWhiteSpace(txtCategories.Text) ? null : txtCategories.Text.Trim();
+
+            if (!string.IsNullOrWhiteSpace(categories))
+            {
+                var parts = categories.Split(',').Select(c => c.Trim()).ToList();
+                if (parts.Any(string.IsNullOrEmpty))
+                {
+                    MessageBox.Show("Invalid category entry.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCategories.Focus();
+                    return;
+                }
+
+                if (parts.Distinct(StringComparer.OrdinalIgnoreCase).Count() != parts.Count)
+                {
+                    MessageBox.Show("Duplicate categories entered.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCategories.Focus();
+                    return;
+                }
+            }
         }
     }
 }
