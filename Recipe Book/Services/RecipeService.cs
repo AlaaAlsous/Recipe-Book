@@ -47,6 +47,43 @@ namespace Recipe_Book.Services
 					.Where(c => categoryNames.Contains(c.Name))
 					.ToListAsync();
 			}
+
+			foreach (var ing in ingredientList)
+			{
+				var ingredient = existingIngredients.FirstOrDefault(i => i.Name == ing.ingredientName);
+
+				if (ingredient == null)
+				{
+					ingredient = new Ingredient { Name = ing.ingredientName, QuantityUnit = ing.unit };
+					_context.Ingredients.Add(ingredient);
+				}
+
+				recipe.RecipeIngredients.Add(new RecipeIngredient
+				{
+					Recipe = recipe,
+					Ingredient = ingredient,
+					Quantity = ing.quantity,
+					Unit = ing.unit
+				});
+			}
+
+			foreach (var cat in categoryNames)
+			{
+				var category = existingCategories.FirstOrDefault(c => c.Name == cat);
+
+				if (category == null)
+				{
+					category = new Category { Name = cat };
+					_context.Categories.Add(category);
+				}
+
+				recipe.RecipeCategories.Add(new RecipeCategory
+				{
+					Recipe = recipe,
+					Category = category
+				});
+			}
+
 			_context.Recipes.Add(recipe);
 			await _context.SaveChangesAsync();
 		}
