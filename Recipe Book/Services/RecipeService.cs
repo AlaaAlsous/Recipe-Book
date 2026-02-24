@@ -107,5 +107,49 @@ namespace Recipe_Book.Services
 					.ThenInclude(rc => rc.Category)
 				.FirstOrDefaultAsync(r => r.RecipeId == id);
 		}
+
+		public async Task UpdateRecipeAsync(
+			int recipeId,
+			string recipeName,
+			string description,
+			string instructions,
+			List<(string ingredientName, decimal quantity, string unit)> ingredients,
+			List<string> categories)
+		{
+			var recipe = await _context.Recipes
+				.Include(r => r.RecipeIngredients)
+				.Include(r => r.RecipeCategories)
+				.FirstOrDefaultAsync(r => r.RecipeId == recipeId);
+
+			if (recipe == null)
+				return;
+
+			recipe.Name = recipeName;
+			recipe.Description = description;
+			recipe.Instructions = instructions;
+			recipe.UpdatedAt = DateTime.Now;
+
+			_context.RecipeIngredients.RemoveRange(recipe.RecipeIngredients);
+			_context.RecipeCategories.RemoveRange(recipe.RecipeCategories);
+
+			var ingredientList = ingredients ?? new List<(string ingredientName, decimal quantity, string unit)>();
+			var ingredientNames = ingredientList.Select(i => i.ingredientName).ToList();
+			var existingIngredients = new List<Ingredient>();
+			if (ingredientNames.Count > 0)
+			{
+				existingIngredients = await _context.Ingredients
+					.Where(i => ingredientNames.Contains(i.Name))
+					.ToListAsync();
+			}
+
+			var categoryNames = categories ?? new List<string>();
+			var existingCategories = new List<Category>();
+			if (categoryNames.Count > 0)
+			{
+				existingCategories = await _context.Categories
+					.Where(c => categoryNames.Contains(c.Name))
+					.ToListAsync();
+			}
+		}
 	}
 }
