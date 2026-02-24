@@ -79,5 +79,43 @@
                 MessageBox.Show($"Could not save recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void BtnAddIng_Click(object? sender, EventArgs e)
+        {
+            var name = txtIngName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Ingredient name is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_ingredients.Exists(i => string.Equals(i.ingredientName, name, StringComparison.OrdinalIgnoreCase)))
+            {
+                MessageBox.Show("An ingredient with that name has already been added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtIngName.Focus();
+                return;
+            }
+
+            decimal qty = 0m;
+            if (!string.IsNullOrWhiteSpace(txtIngQuantity.Text))
+            {
+                if (!decimal.TryParse(txtIngQuantity.Text.Trim(), out qty))
+                {
+                    MessageBox.Show("Invalid quantity.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+            }
+
+            var unit = !string.IsNullOrWhiteSpace(txtIngUnit.Text) ? txtIngUnit.Text.Trim() : "Unit";
+
+            _ingredients.Add((name, qty, unit));
+            UpdateIngredientGrid();
+
+            txtIngName.Clear();
+            txtIngQuantity.Clear();
+            txtIngUnit.Clear();
+            txtIngName.Focus();
+        }
+
+
     }
 }
