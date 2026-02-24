@@ -87,5 +87,25 @@ namespace Recipe_Book.Services
 			_context.Recipes.Add(recipe);
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<List<Recipe>> GetAllRecipesAsync()
+		{
+			return await _context.Recipes
+				.Include(r => r.RecipeIngredients)
+					.ThenInclude(ri => ri.Ingredient)
+				.Include(r => r.RecipeCategories)
+					.ThenInclude(rc => rc.Category)
+				.ToListAsync();
+		}
+
+		public async Task<Recipe?> GetRecipeByIdAsync(int id)
+		{
+			return await _context.Recipes
+				.Include(r => r.RecipeIngredients)
+					.ThenInclude(ri => ri.Ingredient)
+				.Include(r => r.RecipeCategories)
+					.ThenInclude(rc => rc.Category)
+				.FirstOrDefaultAsync(r => r.RecipeId == id);
+		}
 	}
 }
