@@ -104,5 +104,26 @@ namespace Recipe_Book.Services
 
             return true;
         }
+
+        public static async Task<bool> SaveNewRecipeAsync(RecipeService service, string name, string? description, string? instructions, List<(string ingredientName, decimal quantity, string unit)> ingredients, List<string> categoryList, IWin32Window owner)
+        {
+            try
+            {
+                if (await service.RecipeExistsAsync(name))
+                {
+                    MessageBox.Show(owner, "A recipe with that name already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return false;
+                }
+
+                await service.AddRecipeAsync(name, description, instructions, ingredients, categoryList);
+                MessageBox.Show(owner, "Recipe saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(owner, $"Could not save recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
     }
 }
