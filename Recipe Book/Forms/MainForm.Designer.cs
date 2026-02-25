@@ -24,7 +24,7 @@
             label1 = new Label();
             BtnCreate = new Button();
             button2 = new Button();
-            button3 = new Button();
+            BtnDelete = new Button();
             button4 = new Button();
             dgvRecipes = new DataGridView();
             RecipeId = new DataGridViewTextBoxColumn();
@@ -83,22 +83,23 @@
             button2.Text = "Edit";
             button2.UseVisualStyleBackColor = false;
             // 
-            // button3
+            // BtnDelete
             // 
-            button3.Anchor = AnchorStyles.None;
-            button3.BackColor = Color.FromArgb(233, 30, 99);
-            button3.Cursor = Cursors.Hand;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 24, 78);
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(56, 339);
-            button3.Name = "button3";
-            button3.Size = new Size(180, 55);
-            button3.TabIndex = 3;
-            button3.Text = "Delete";
-            button3.UseVisualStyleBackColor = false;
+            BtnDelete.Anchor = AnchorStyles.None;
+            BtnDelete.BackColor = Color.FromArgb(233, 30, 99);
+            BtnDelete.Cursor = Cursors.Hand;
+            BtnDelete.FlatAppearance.BorderSize = 0;
+            BtnDelete.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 24, 78);
+            BtnDelete.FlatStyle = FlatStyle.Flat;
+            BtnDelete.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            BtnDelete.ForeColor = Color.White;
+            BtnDelete.Location = new Point(56, 339);
+            BtnDelete.Name = "BtnDelete";
+            BtnDelete.Size = new Size(180, 55);
+            BtnDelete.TabIndex = 3;
+            BtnDelete.Text = "Delete";
+            BtnDelete.UseVisualStyleBackColor = false;
+            BtnDelete.Click += BtnDelete_Click;
             // 
             // button4
             // 
@@ -150,7 +151,8 @@
             dgvRecipes.ReadOnly = true;
             dgvRecipes.RowHeadersVisible = false;
             dgvRecipes.RowHeadersWidth = 51;
-            dgvRecipes.Size = new Size(864, 487);
+            dgvRecipes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvRecipes.Size = new Size(836, 487);
             dgvRecipes.TabIndex = 5;
             // 
             // RecipeId
@@ -189,7 +191,7 @@
             ClientSize = new Size(1178, 649);
             Controls.Add(dgvRecipes);
             Controls.Add(button4);
-            Controls.Add(button3);
+            Controls.Add(BtnDelete);
             Controls.Add(button2);
             Controls.Add(BtnCreate);
             Controls.Add(label1);
@@ -211,7 +213,7 @@
         private Label label1;
         private Button BtnCreate;
         private Button button2;
-        private Button button3;
+        private Button BtnDelete;
         private Button button4;
         private DataGridView dgvRecipes;
         private DataGridViewTextBoxColumn RecipeId;

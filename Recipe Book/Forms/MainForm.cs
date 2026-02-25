@@ -31,5 +31,23 @@ namespace Recipe_Book
             createForm.ShowDialog();
             await LoadRecipes();
         }
+
+        private async void BtnDelete_Click(object sender, EventArgs e)
+        {
+            if (dgvRecipes.SelectedRows.Count > 0)
+            {
+                var recipeId = (int)dgvRecipes.SelectedRows[0].Cells[0].Value!;
+                var confirm = MessageBox.Show("Are you sure you want to delete this recipe?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (confirm == DialogResult.Yes)
+                {
+                    await _recipeService.DeleteRecipeAsync(recipeId);
+                    await LoadRecipes();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a recipe to delete.");
+            }
+        }
     }
 }
