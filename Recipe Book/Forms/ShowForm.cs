@@ -34,5 +34,20 @@ namespace Recipe_Book.Forms
                 dataGridView1.Rows.Add(r.RecipeId, r.Name, r.Description ?? string.Empty, r.Instructions ?? string.Empty, r.CreatedAt, r.UpdatedAt);
             }
         }
+
+        private async void BtnShowIngredients_Click(object? sender, EventArgs e)
+        {
+            var ingredients = await _recipeService.GetAllIngredientAsync();
+
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Add("Name", "Name");
+            dataGridView1.Columns.Add("QuantityUnit", "Quantity Unit");
+
+            foreach (var i in ingredients)
+            {
+                dataGridView1.Rows.Add(i.Name, i.QuantityUnit);
+            }
+        }
     }
 }
