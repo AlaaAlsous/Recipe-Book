@@ -52,10 +52,45 @@ namespace Recipe_Book.Forms
                 this.Close();
             }
         }
-             private void UpdateIngredientGrid()
+
+        private async void BtnSaveChanges_Click(object? sender, EventArgs e)
+        {
+            var name = txtName.Text.Trim();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Recipe name is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text.Trim();
+            var instructions = string.IsNullOrWhiteSpace(txtInstructions.Text) ? null : txtInstructions.Text.Trim();
+            var categories = string.IsNullOrWhiteSpace(txtCategories.Text) ? null : txtCategories.Text.Trim();
+
+            if (!RecipeFormHelper.TryParseCategories(categories, this, out var categoryList))
+            {
+                txtCategories.Focus();
+                return;
+            }
+
+            if (!RecipeFormHelper.HasIngredients(_ingredients, this))
+                return;
+
+            bool result;
+            if (_recipeId.HasValue)
+            {
+                result = await RecipeFormHelper.UpdateRecipeAsync(_recipeService, _recipeId.Value, name, description, instructions, _ingredients, categoryList, this);
+            }
+            else
+            {
+                result = await RecipeFormHelper.SaveNewRecipeAsync(_recipeService, name, description, instructions, _ingredients, categoryList, this);
+            }
+
+            if (result)
+                this.Close();
+        }
+        private void UpdateIngredientGrid()
         {
             RecipeFormHelper.UpdateIngredientGrid(_ingredients, dataGridView1);
         }
-       
     }
 }
