@@ -49,5 +49,21 @@ namespace Recipe_Book.Services
                 grid.Rows.Add(ing.ingredientName, ing.quantity, ing.unit);
             }
         }
+
+        public static void RemoveSelectedIngredient(List<(string ingredientName, decimal quantity, string unit)> ingredients, DataGridView grid)
+        {
+            if (grid.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an ingredient to remove.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var idx = grid.SelectedRows[0].Index;
+            if (idx >= 0 && idx < ingredients.Count)
+            {
+                ingredients.RemoveAt(idx);
+                UpdateIngredientGrid(ingredients, grid);
+            }
+        }
     }
 }
