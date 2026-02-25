@@ -94,5 +94,15 @@ namespace Recipe_Book.Services
             return true;
         }
 
+        public static bool HasIngredients(List<(string ingredientName, decimal quantity, string unit)> ingredients, IWin32Window owner)
+        {
+            if (ingredients == null || ingredients.Count == 0)
+            {
+                MessageBox.Show(owner, "No ingredients added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
+        }
     }
 }
