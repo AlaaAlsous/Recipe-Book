@@ -49,5 +49,20 @@ namespace Recipe_Book.Forms
                 dataGridView1.Rows.Add(i.Name, i.QuantityUnit);
             }
         }
+
+        private async void BtnShowCategories_Click(object? sender, EventArgs e)
+        {
+            var categories = await _recipeService.GetAllCategoryAsync();
+
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Add("Name", "Category Name");
+
+            foreach (var c in categories)
+            {
+                dataGridView1.Rows.Add(c.Name);
+            }
+        }
+
     }
 }
