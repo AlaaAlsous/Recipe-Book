@@ -64,5 +64,11 @@ namespace Recipe_Book
                 MessageBox.Show("Please select a recipe to edit.");
             }
         }
+        private async void BtnShow_Click(object sender, EventArgs e)
+        {
+            var showForm = new Forms.ShowForm(_recipeService);
+            showForm.ShowDialog();
+            await LoadRecipes();
+        }
     }
 }

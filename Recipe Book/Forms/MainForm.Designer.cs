@@ -69,7 +69,7 @@
             // BtnEdit
             // 
             BtnEdit.Anchor = AnchorStyles.None;
-            BtnEdit.BackColor = Color.FromArgb(33, 150, 243);
+            BtnEdit.BackColor = Color.DarkTurquoise;
             BtnEdit.Cursor = Cursors.Hand;
             BtnEdit.FlatAppearance.BorderSize = 0;
             BtnEdit.FlatAppearance.MouseOverBackColor = Color.FromArgb(24, 119, 242);
@@ -118,6 +118,7 @@
             BtnShow.TabIndex = 4;
             BtnShow.Text = "Show";
             BtnShow.UseVisualStyleBackColor = false;
+            BtnShow.Click += BtnShow_Click;
             // 
             // dgvRecipes
             // 
