@@ -88,6 +88,12 @@ namespace Recipe_Book.Forms
             if (result)
                 this.Close();
         }
+
+        private void BtnAddIng_Click(object? sender, EventArgs e)
+        {
+            RecipeFormHelper.AddIngredient(_ingredients, txtIngName, txtIngQuantity, txtIngUnit, dataGridView1);
+        }
+
         private void UpdateIngredientGrid()
         {
             RecipeFormHelper.UpdateIngredientGrid(_ingredients, dataGridView1);
