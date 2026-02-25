@@ -20,7 +20,7 @@ namespace Recipe_Book.Services
                 return false;
 
             var lookup = name.Trim().ToLowerInvariant();
-            return await _context.Recipes.AnyAsync(r => r.Name.ToLower() == lookup);
+            return await _context.Recipes.AnyAsync(r => r.Name != null && r.Name.ToLower() == lookup);
         }
 
         public async Task AddRecipeAsync(
@@ -32,11 +32,11 @@ namespace Recipe_Book.Services
         {
             var recipe = new Recipe
             {
-                Name = recipeName,
+                Name = recipeName?.Trim() ?? string.Empty,
                 Description = description,
                 Instructions = instructions,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
             };
 
             var ingredientList = (ingredients ?? new List<(string ingredientName, decimal quantity, string unit)>())
@@ -55,7 +55,7 @@ namespace Recipe_Book.Services
             if (ingredientNamesLower.Count > 0)
             {
                 existingIngredients = await _context.Ingredients
-                    .Where(i => ingredientNamesLower.Contains(i.Name.ToLower()))
+                    .Where(i => i.Name != null && ingredientNamesLower.Contains(i.Name.ToLower()))
                     .ToListAsync();
             }
 
@@ -70,7 +70,7 @@ namespace Recipe_Book.Services
             if (categoryNamesLower.Count > 0)
             {
                 existingCategories = await _context.Categories
-                    .Where(c => categoryNamesLower.Contains(c.Name.ToLower()))
+                    .Where(c => c.Name != null && categoryNamesLower.Contains(c.Name.ToLower()))
                     .ToListAsync();
             }
 
@@ -134,12 +134,12 @@ namespace Recipe_Book.Services
                 .FirstOrDefaultAsync(r => r.RecipeId == id);
         }
 
-        public async Task<List<Ingredient>> GetAllIngredientAsync()
+        public async Task<List<Ingredient>> GetAllIngredientsAsync()
         {
-           return await _context.Ingredients.ToListAsync();
+            return await _context.Ingredients.ToListAsync();
         }
 
-        public async Task<List<Category>> GetAllCategoryAsync()
+        public async Task<List<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();
         }
@@ -160,10 +160,10 @@ namespace Recipe_Book.Services
             if (recipe == null)
                 return;
 
-            recipe.Name = recipeName;
+            recipe.Name = recipeName?.Trim() ?? string.Empty;
             recipe.Description = description;
             recipe.Instructions = instructions;
-            recipe.UpdatedAt = DateTime.Now;
+            recipe.UpdatedAt = DateTime.UtcNow;
 
             _context.RecipeIngredients.RemoveRange(recipe.RecipeIngredients);
             _context.RecipeCategories.RemoveRange(recipe.RecipeCategories);
@@ -180,7 +180,7 @@ namespace Recipe_Book.Services
             if (ingredientNamesLower.Count > 0)
             {
                 existingIngredients = await _context.Ingredients
-                    .Where(i => ingredientNamesLower.Contains(i.Name.ToLower()))
+                    .Where(i => i.Name != null && ingredientNamesLower.Contains(i.Name.ToLower()))
                     .ToListAsync();
             }
 
@@ -195,7 +195,7 @@ namespace Recipe_Book.Services
             if (categoryNamesLower.Count > 0)
             {
                 existingCategories = await _context.Categories
-                    .Where(c => categoryNamesLower.Contains(c.Name.ToLower()))
+                    .Where(c => c.Name != null && categoryNamesLower.Contains(c.Name.ToLower()))
                     .ToListAsync();
             }
 
