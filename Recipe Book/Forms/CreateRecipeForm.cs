@@ -123,5 +123,21 @@
                 dataGridView1.Rows.Add(ing.ingredientName, ing.quantity, ing.unit);
             }
         }
+
+        private void BtnRemoveIng_Click(object? sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an ingredient to remove.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var idx = dataGridView1.SelectedRows[0].Index;
+            if (idx >= 0 && idx < _ingredients.Count)
+            {
+                _ingredients.RemoveAt(idx);
+                UpdateIngredientGrid();
+            }
+        }
     }
 }
