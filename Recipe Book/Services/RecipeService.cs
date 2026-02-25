@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Recipe_Book.Data;
 using Recipe_Book.Models;
 
@@ -131,6 +132,16 @@ namespace Recipe_Book.Services
                 .Include(r => r.RecipeCategories)
                     .ThenInclude(rc => rc.Category)
                 .FirstOrDefaultAsync(r => r.RecipeId == id);
+        }
+
+        public async Task<List<Ingredient>> GetAllIngredientAsync()
+        {
+           return await _context.Ingredients.ToListAsync();
+        }
+
+        public async Task<List<Category>> GetAllCategoryAsync()
+        {
+            return await _context.Categories.ToListAsync();
         }
 
         public async Task UpdateRecipeAsync(
