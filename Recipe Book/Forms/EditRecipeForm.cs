@@ -98,5 +98,10 @@ namespace Recipe_Book.Forms
         {
             RecipeFormHelper.UpdateIngredientGrid(_ingredients, dataGridView1);
         }
+
+        private void BtnRemoveIng_Click(object? sender, EventArgs e)
+        {
+            RecipeFormHelper.RemoveSelectedIngredient(_ingredients, dataGridView1);
+        }
     }
 }
