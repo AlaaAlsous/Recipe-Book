@@ -17,58 +17,105 @@ namespace Recipe_Book
 
         private async Task LoadRecipes()
         {
-            var recipes = await _recipeService.GetAllRecipesAsync();
-            dgvRecipes.Rows.Clear();
-            foreach (var recipe in recipes)
+            try
             {
-                dgvRecipes.Rows.Add(recipe.RecipeId, recipe.Name, recipe.UpdatedAt);
+                var recipes = await _recipeService.GetAllRecipesAsync();
+                dgvRecipes.Rows.Clear();
+                foreach (var recipe in recipes)
+                {
+                    dgvRecipes.Rows.Add(recipe.RecipeId, recipe.Name, recipe.UpdatedAt);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not load recipes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void BtnCreate_Click(object sender, EventArgs e)
         {
-            var createForm = new Forms.CreateRecipeForm(_recipeService);
-            createForm.ShowDialog();
-            await LoadRecipes();
+            try
+            {
+                var createForm = new Forms.CreateRecipeForm(_recipeService);
+                createForm.ShowDialog();
+                await LoadRecipes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not create recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvRecipes.SelectedRows.Count > 0)
+            try
             {
-                var recipeId = (int)dgvRecipes.SelectedRows[0].Cells[0].Value!;
-                var confirm = MessageBox.Show("Are you sure you want to delete this recipe?", "Confirm Delete", MessageBoxButtons.YesNo);
-                if (confirm == DialogResult.Yes)
+                if (dgvRecipes.SelectedRows.Count > 0)
                 {
-                    await _recipeService.DeleteRecipeAsync(recipeId);
-                    await LoadRecipes();
+                    var cellVal = dgvRecipes.SelectedRows[0].Cells[0].Value;
+                    if (cellVal == null || !int.TryParse(cellVal.ToString(), out var recipeId))
+                    {
+                        MessageBox.Show("Selected row does not contain a valid recipe id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var confirm = MessageBox.Show("Are you sure you want to delete this recipe?", "Confirm Delete", MessageBoxButtons.YesNo);
+                    if (confirm == DialogResult.Yes)
+                    {
+                        await _recipeService.DeleteRecipeAsync(recipeId);
+                        await LoadRecipes();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a recipe to delete.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a recipe to delete.");
+                MessageBox.Show($"Could not delete recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvRecipes.SelectedRows.Count > 0)
+            try
             {
-                var recipeId = (int)dgvRecipes.SelectedRows[0].Cells[0].Value!;
-                var editForm = new Forms.EditRecipeForm(_recipeService, recipeId);
-                editForm.ShowDialog();
-                await LoadRecipes();
+                if (dgvRecipes.SelectedRows.Count > 0)
+                {
+                    var cellVal = dgvRecipes.SelectedRows[0].Cells[0].Value;
+                    if (cellVal == null || !int.TryParse(cellVal.ToString(), out var recipeId))
+                    {
+                        MessageBox.Show("Selected row does not contain a valid recipe id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    var editForm = new Forms.EditRecipeForm(_recipeService, recipeId);
+                    editForm.ShowDialog();
+                    await LoadRecipes();
+                }
+                else
+                {
+                    MessageBox.Show("Please select a recipe to edit.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a recipe to edit.");
+                MessageBox.Show($"Could not edit recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private async void BtnShow_Click(object sender, EventArgs e)
         {
-            var showForm = new Forms.ShowForm(_recipeService);
-            showForm.ShowDialog();
-            await LoadRecipes();
+            try
+            {
+                var showForm = new Forms.ShowForm(_recipeService);
+                showForm.ShowDialog();
+                await LoadRecipes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not show recipes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
