@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EditRecipeForm));
             label1 = new Label();
             BtnSave = new Button();
             txtCategories = new TextBox();
@@ -418,6 +419,7 @@
             Controls.Add(label5);
             Controls.Add(txtIngName);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "EditRecipeForm";
             StartPosition = FormStartPosition.CenterScreen;
