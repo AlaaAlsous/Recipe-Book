@@ -24,25 +24,29 @@ namespace Recipe_Book.Data
 			modelBuilder.Entity<RecipeIngredient>()
 				.HasOne(ri => ri.Recipe)
 				.WithMany(r => r.RecipeIngredients)
-				.HasForeignKey(ri => ri.RecipeId);
+				.HasForeignKey(ri => ri.RecipeId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<RecipeIngredient>()
+            modelBuilder.Entity<RecipeIngredient>()
 				.HasOne(ri => ri.Ingredient)
 				.WithMany(i => i.RecipeIngredients)
-				.HasForeignKey(ri => ri.IngredientId);
+				.HasForeignKey(ri => ri.IngredientId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-			modelBuilder.Entity<RecipeCategory>()
+            modelBuilder.Entity<RecipeCategory>()
 				.HasKey(rc => new { rc.RecipeId, rc.CategoryId });
 
 			modelBuilder.Entity<RecipeCategory>()
 				.HasOne(rc => rc.Recipe)
 				.WithMany(r => r.RecipeCategories)
-				.HasForeignKey(rc => rc.RecipeId);
+				.HasForeignKey(rc => rc.RecipeId)
+				.OnDelete(DeleteBehavior.Cascade);
 
-			modelBuilder.Entity<RecipeCategory>()
+            modelBuilder.Entity<RecipeCategory>()
 				.HasOne(rc => rc.Category)
 				.WithMany(c => c.RecipeCategories)
-				.HasForeignKey(rc => rc.CategoryId);
-		}
+				.HasForeignKey(rc => rc.CategoryId)
+				.OnDelete(DeleteBehavior.Restrict);
+        }
 	}
 }
