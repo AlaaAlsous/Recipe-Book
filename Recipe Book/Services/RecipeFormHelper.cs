@@ -40,5 +40,14 @@ namespace Recipe_Book.Services
             txtIngUnit.Clear();
             txtIngName.Focus();
         }
+
+        public static void UpdateIngredientGrid(List<(string ingredientName, decimal quantity, string unit)> ingredients, DataGridView grid)
+        {
+            grid.Rows.Clear();
+            foreach (var ing in ingredients)
+            {
+                grid.Rows.Add(ing.ingredientName, ing.quantity, ing.unit);
+            }
+        }
     }
 }
