@@ -52,6 +52,10 @@ namespace Recipe_Book.Forms
                 this.Close();
             }
         }
-
+             private void UpdateIngredientGrid()
+        {
+            RecipeFormHelper.UpdateIngredientGrid(_ingredients, dataGridView1);
+        }
+       
     }
 }
