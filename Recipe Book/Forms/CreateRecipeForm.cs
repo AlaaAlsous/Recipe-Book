@@ -1,4 +1,7 @@
-﻿namespace Recipe_Book.Forms
+﻿using Recipe_Book.Services;
+using System.Linq;
+
+namespace Recipe_Book.Forms
 {
     public partial class CreateRecipeForm : Form
     {
@@ -21,123 +24,31 @@
                 return;
             }
 
-            if (await _recipeService.RecipeExistsAsync(name))
-            {
-                MessageBox.Show("A recipe with that name already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             var description = string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text.Trim();
             var instructions = string.IsNullOrWhiteSpace(txtInstructions.Text) ? null : txtInstructions.Text.Trim();
             var categories = string.IsNullOrWhiteSpace(txtCategories.Text) ? null : txtCategories.Text.Trim();
 
-            if (!string.IsNullOrWhiteSpace(categories))
+            if (!RecipeFormHelper.TryParseCategories(categories, this, out var categoryList))
             {
-                var parts = categories.Split(',').Select(c => c.Trim()).ToList();
-                if (parts.Any(string.IsNullOrEmpty))
-                {
-                    MessageBox.Show("Invalid category entry.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCategories.Focus();
-                    return;
-                }
-
-                if (parts.Distinct(StringComparer.OrdinalIgnoreCase).Count() != parts.Count)
-                {
-                    MessageBox.Show("Duplicate categories entered.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCategories.Focus();
-                    return;
-                }
-            }
-
-            var ingredientList = _ingredients;
-            if (ingredientList == null || ingredientList.Count == 0)
-            {
-                MessageBox.Show("No ingredients added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCategories.Focus();
                 return;
             }
 
-            var categoryList = new List<string>();
-            if (!string.IsNullOrWhiteSpace(categories))
-            {
-                foreach (var c in categories.Split(','))
-                {
-                    var cat = c.Trim();
-                    if (!string.IsNullOrEmpty(cat))
-                        categoryList.Add(cat);
-                }
-            }
+            if (!RecipeFormHelper.HasIngredients(_ingredients, this))
+                return;
 
-            try
-            {
-                await _recipeService.AddRecipeAsync(name, description!, instructions!, ingredientList, categoryList);
-                MessageBox.Show("Recipe saved.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var saved = await RecipeFormHelper.SaveNewRecipeAsync(_recipeService, name, description, instructions, _ingredients, categoryList, this);
+            if (saved)
                 this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Could not save recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
         private void BtnAddIng_Click(object? sender, EventArgs e)
         {
-            var name = txtIngName.Text.Trim();
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                MessageBox.Show("Ingredient name is required.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            if (_ingredients.Exists(i => string.Equals(i.ingredientName, name, StringComparison.OrdinalIgnoreCase)))
-            {
-                MessageBox.Show("An ingredient with that name has already been added.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtIngName.Focus();
-                return;
-            }
-
-            decimal qty = 0m;
-            if (!string.IsNullOrWhiteSpace(txtIngQuantity.Text))
-            {
-                if (!decimal.TryParse(txtIngQuantity.Text.Trim(), out qty))
-                {
-                    MessageBox.Show("Invalid quantity.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            var unit = !string.IsNullOrWhiteSpace(txtIngUnit.Text) ? txtIngUnit.Text.Trim() : "Unit";
-
-            _ingredients.Add((name, qty, unit));
-            UpdateIngredientGrid();
-
-            txtIngName.Clear();
-            txtIngQuantity.Clear();
-            txtIngUnit.Clear();
-            txtIngName.Focus();
-        }
-
-        private void UpdateIngredientGrid()
-        {
-            dataGridView1.Rows.Clear();
-            foreach (var ing in _ingredients)
-            {
-                dataGridView1.Rows.Add(ing.ingredientName, ing.quantity, ing.unit);
-            }
+            RecipeFormHelper.AddIngredient(_ingredients, txtIngName, txtIngQuantity, txtIngUnit, dataGridView1);
         }
 
         private void BtnRemoveIng_Click(object? sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select an ingredient to remove.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var idx = dataGridView1.SelectedRows[0].Index;
-            if (idx >= 0 && idx < _ingredients.Count)
-            {
-                _ingredients.RemoveAt(idx);
-                UpdateIngredientGrid();
-            }
+            RecipeFormHelper.RemoveSelectedIngredient(_ingredients, dataGridView1);
         }
     }
 }
