@@ -64,5 +64,38 @@ namespace Recipe_Book.Forms
             }
         }
 
+        private async void BtnShowRecipeIngredients_Click(object? sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a recipe to view its ingredients.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(dataGridView1.SelectedRows[0].Cells[0].Value?.ToString(), out var recipeId))
+            {
+                MessageBox.Show("Selected row does not contain a valid recipe id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var recipe = await _recipeService.GetRecipeByIdAsync(recipeId);
+            if (recipe == null)
+            {
+                MessageBox.Show("Recipe not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Add("RecipeName", "Recipe Name");
+            dataGridView1.Columns.Add("IngredientName", "Ingredient Name");
+            dataGridView1.Columns.Add("Quantity", "Quantity");
+            dataGridView1.Columns.Add("Unit", "Unit");
+
+            foreach (var ri in recipe.RecipeIngredients)
+            {
+                dataGridView1.Rows.Add(recipe.Name, ri.Ingredient.Name, ri.Quantity, ri.Unit);
+            }
+        }
     }
 }
