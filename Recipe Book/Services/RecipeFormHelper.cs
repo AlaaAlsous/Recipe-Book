@@ -125,5 +125,36 @@ namespace Recipe_Book.Services
                 return false;
             }
         }
+
+        public static async Task<bool> UpdateRecipeAsync(RecipeService service, int recipeId, string name, string? description, string? instructions, List<(string ingredientName, decimal quantity, string unit)> ingredients, List<string> categoryList, IWin32Window owner)
+        {
+            try
+            {
+                var existing = await service.GetRecipeByIdAsync(recipeId);
+                if (existing == null)
+                {
+                    MessageBox.Show(owner, "Recipe not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                if (!string.Equals(existing.Name, name, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (await service.RecipeExistsAsync(name))
+                    {
+                        MessageBox.Show(owner, "A recipe with that name already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return false;
+                    }
+                }
+
+                await service.UpdateRecipeAsync(recipeId, name, description, instructions, ingredients, categoryList);
+                MessageBox.Show(owner, "Recipe updated.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(owner, $"Could not update recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
     }
 }
