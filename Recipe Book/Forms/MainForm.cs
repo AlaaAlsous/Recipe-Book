@@ -49,5 +49,20 @@ namespace Recipe_Book
                 MessageBox.Show("Please select a recipe to delete.");
             }
         }
+
+        private async void BtnEdit_Click(object sender, EventArgs e)
+        {
+            if (dgvRecipes.SelectedRows.Count > 0)
+            {
+                var recipeId = (int)dgvRecipes.SelectedRows[0].Cells[0].Value!;
+                var editForm = new Forms.EditRecipeForm(_recipeService, recipeId);
+                editForm.ShowDialog();
+                await LoadRecipes();
+            }
+            else
+            {
+                MessageBox.Show("Please select a recipe to edit.");
+            }
+        }
     }
 }

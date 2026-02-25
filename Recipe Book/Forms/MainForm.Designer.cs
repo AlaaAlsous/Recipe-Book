@@ -23,9 +23,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             label1 = new Label();
             BtnCreate = new Button();
-            button2 = new Button();
+            BtnEdit = new Button();
             BtnDelete = new Button();
-            button4 = new Button();
+            BtnShow = new Button();
             dgvRecipes = new DataGridView();
             RecipeId = new DataGridViewTextBoxColumn();
             RecipeName = new DataGridViewTextBoxColumn();
@@ -66,22 +66,23 @@
             BtnCreate.UseVisualStyleBackColor = false;
             BtnCreate.Click += BtnCreate_Click;
             // 
-            // button2
+            // BtnEdit
             // 
-            button2.Anchor = AnchorStyles.None;
-            button2.BackColor = Color.FromArgb(33, 150, 243);
-            button2.Cursor = Cursors.Hand;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(24, 119, 242);
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(56, 254);
-            button2.Name = "button2";
-            button2.Size = new Size(180, 55);
-            button2.TabIndex = 2;
-            button2.Text = "Edit";
-            button2.UseVisualStyleBackColor = false;
+            BtnEdit.Anchor = AnchorStyles.None;
+            BtnEdit.BackColor = Color.FromArgb(33, 150, 243);
+            BtnEdit.Cursor = Cursors.Hand;
+            BtnEdit.FlatAppearance.BorderSize = 0;
+            BtnEdit.FlatAppearance.MouseOverBackColor = Color.FromArgb(24, 119, 242);
+            BtnEdit.FlatStyle = FlatStyle.Flat;
+            BtnEdit.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            BtnEdit.ForeColor = Color.White;
+            BtnEdit.Location = new Point(56, 254);
+            BtnEdit.Name = "BtnEdit";
+            BtnEdit.Size = new Size(180, 55);
+            BtnEdit.TabIndex = 2;
+            BtnEdit.Text = "Edit";
+            BtnEdit.UseVisualStyleBackColor = false;
+            BtnEdit.Click += BtnEdit_Click;
             // 
             // BtnDelete
             // 
@@ -101,22 +102,22 @@
             BtnDelete.UseVisualStyleBackColor = false;
             BtnDelete.Click += BtnDelete_Click;
             // 
-            // button4
+            // BtnShow
             // 
-            button4.Anchor = AnchorStyles.None;
-            button4.BackColor = Color.FromArgb(76, 175, 80);
-            button4.Cursor = Cursors.Hand;
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(56, 142, 60);
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            button4.ForeColor = Color.White;
-            button4.Location = new Point(56, 424);
-            button4.Name = "button4";
-            button4.Size = new Size(180, 55);
-            button4.TabIndex = 4;
-            button4.Text = "Show";
-            button4.UseVisualStyleBackColor = false;
+            BtnShow.Anchor = AnchorStyles.None;
+            BtnShow.BackColor = Color.FromArgb(76, 175, 80);
+            BtnShow.Cursor = Cursors.Hand;
+            BtnShow.FlatAppearance.BorderSize = 0;
+            BtnShow.FlatAppearance.MouseOverBackColor = Color.FromArgb(56, 142, 60);
+            BtnShow.FlatStyle = FlatStyle.Flat;
+            BtnShow.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            BtnShow.ForeColor = Color.White;
+            BtnShow.Location = new Point(56, 424);
+            BtnShow.Name = "BtnShow";
+            BtnShow.Size = new Size(180, 55);
+            BtnShow.TabIndex = 4;
+            BtnShow.Text = "Show";
+            BtnShow.UseVisualStyleBackColor = false;
             // 
             // dgvRecipes
             // 
@@ -190,9 +191,9 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1178, 649);
             Controls.Add(dgvRecipes);
-            Controls.Add(button4);
+            Controls.Add(BtnShow);
             Controls.Add(BtnDelete);
-            Controls.Add(button2);
+            Controls.Add(BtnEdit);
             Controls.Add(BtnCreate);
             Controls.Add(label1);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -212,9 +213,9 @@
 
         private Label label1;
         private Button BtnCreate;
-        private Button button2;
+        private Button BtnEdit;
         private Button BtnDelete;
-        private Button button4;
+        private Button BtnShow;
         private DataGridView dgvRecipes;
         private DataGridViewTextBoxColumn RecipeId;
         private DataGridViewTextBoxColumn RecipeName;
