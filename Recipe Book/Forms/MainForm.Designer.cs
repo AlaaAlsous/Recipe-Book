@@ -37,25 +37,27 @@
             // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
-            label1.BackColor = Color.LightCyan;
-            label1.BorderStyle = BorderStyle.FixedSingle;
-            label1.Font = new Font("Arial Rounded MT Bold", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.ForeColor = SystemColors.Highlight;
-            label1.Location = new Point(388, 9);
+            label1.BackColor = Color.Transparent;
+            label1.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.FromArgb(33, 37, 41);
+            label1.Location = new Point(485, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(403, 48);
+            label1.Size = new Size(209, 46);
             label1.TabIndex = 0;
-            label1.Text = "🍽️  Recipe Book  🍽️";
+            label1.Text = "Recipe Book";
             label1.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // BtnCreate
             // 
             BtnCreate.Anchor = AnchorStyles.None;
-            BtnCreate.BackColor = Color.Gainsboro;
+            BtnCreate.BackColor = Color.FromArgb(33, 150, 243);
             BtnCreate.Cursor = Cursors.Hand;
-            BtnCreate.Font = new Font("Arial Rounded MT Bold", 13.8F);
-            BtnCreate.ForeColor = SystemColors.HotTrack;
+            BtnCreate.FlatAppearance.BorderSize = 0;
+            BtnCreate.FlatAppearance.MouseOverBackColor = Color.FromArgb(24, 119, 242);
+            BtnCreate.FlatStyle = FlatStyle.Flat;
+            BtnCreate.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            BtnCreate.ForeColor = Color.White;
             BtnCreate.Location = new Point(56, 169);
             BtnCreate.Name = "BtnCreate";
             BtnCreate.Size = new Size(180, 55);
@@ -67,10 +69,13 @@
             // button2
             // 
             button2.Anchor = AnchorStyles.None;
-            button2.BackColor = Color.Gainsboro;
+            button2.BackColor = Color.FromArgb(33, 150, 243);
             button2.Cursor = Cursors.Hand;
-            button2.Font = new Font("Arial Rounded MT Bold", 13.8F);
-            button2.ForeColor = SystemColors.HotTrack;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatAppearance.MouseOverBackColor = Color.FromArgb(24, 119, 242);
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            button2.ForeColor = Color.White;
             button2.Location = new Point(56, 254);
             button2.Name = "button2";
             button2.Size = new Size(180, 55);
@@ -81,10 +86,13 @@
             // button3
             // 
             button3.Anchor = AnchorStyles.None;
-            button3.BackColor = Color.Gainsboro;
+            button3.BackColor = Color.FromArgb(233, 30, 99);
             button3.Cursor = Cursors.Hand;
-            button3.Font = new Font("Arial Rounded MT Bold", 13.8F);
-            button3.ForeColor = SystemColors.HotTrack;
+            button3.FlatAppearance.BorderSize = 0;
+            button3.FlatAppearance.MouseOverBackColor = Color.FromArgb(200, 24, 78);
+            button3.FlatStyle = FlatStyle.Flat;
+            button3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            button3.ForeColor = Color.White;
             button3.Location = new Point(56, 339);
             button3.Name = "button3";
             button3.Size = new Size(180, 55);
@@ -95,10 +103,13 @@
             // button4
             // 
             button4.Anchor = AnchorStyles.None;
-            button4.BackColor = Color.Gainsboro;
+            button4.BackColor = Color.FromArgb(76, 175, 80);
             button4.Cursor = Cursors.Hand;
-            button4.Font = new Font("Arial Rounded MT Bold", 13.8F);
-            button4.ForeColor = SystemColors.HotTrack;
+            button4.FlatAppearance.BorderSize = 0;
+            button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(56, 142, 60);
+            button4.FlatStyle = FlatStyle.Flat;
+            button4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            button4.ForeColor = Color.White;
             button4.Location = new Point(56, 424);
             button4.Name = "button4";
             button4.Size = new Size(180, 55);
@@ -109,12 +120,12 @@
             // dgvRecipes
             // 
             dgvRecipes.AllowUserToAddRows = false;
-            dgvRecipes.BackgroundColor = Color.PaleTurquoise;
+            dgvRecipes.BackgroundColor = Color.White;
             dgvRecipes.BorderStyle = BorderStyle.None;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Arial Rounded MT Bold", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.BackColor = Color.WhiteSmoke;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(33, 37, 41);
             dataGridViewCellStyle1.Padding = new Padding(1);
             dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
@@ -123,16 +134,16 @@
             dgvRecipes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRecipes.Columns.AddRange(new DataGridViewColumn[] { RecipeId, RecipeName, UpdateAt });
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(33, 37, 41);
             dataGridViewCellStyle3.Padding = new Padding(1);
             dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
             dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvRecipes.DefaultCellStyle = dataGridViewCellStyle3;
             dgvRecipes.EnableHeadersVisualStyles = false;
-            dgvRecipes.GridColor = SystemColors.GrayText;
+            dgvRecipes.GridColor = Color.LightGray;
             dgvRecipes.Location = new Point(276, 131);
             dgvRecipes.MultiSelect = false;
             dgvRecipes.Name = "dgvRecipes";
@@ -172,9 +183,9 @@
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(11F, 20F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.PaleTurquoise;
+            BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1178, 649);
             Controls.Add(dgvRecipes);
             Controls.Add(button4);
@@ -182,7 +193,7 @@
             Controls.Add(button2);
             Controls.Add(BtnCreate);
             Controls.Add(label1);
-            Font = new Font("Arial Rounded MT Bold", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
