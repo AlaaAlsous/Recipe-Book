@@ -142,5 +142,60 @@ namespace Recipe_Book.Forms
                 MessageBox.Show($"Could not load recipe ingredients: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private async void BtnDelete_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (dataGridView1.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Please select an item to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var row = dataGridView1.SelectedRows[0];
+                object? idObj = null;
+                if (dataGridView1.Columns.Contains("Id"))
+                    idObj = row.Cells["Id"].Value;
+                else
+                    idObj = row.Cells[0].Value;
+
+                if (!int.TryParse(idObj?.ToString(), out var id))
+                {
+                    MessageBox.Show("Selected row does not contain a valid id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                bool ok = false;
+                if (_currentView == ViewMode.Ingredients)
+                {
+                    ok = await _recipeService.DeleteIngredientAsync(id);
+                    if (!ok)
+                        MessageBox.Show("Could not delete ingredient. It may be used by one or more recipes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show("Ingredient deleted.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    BtnShowIngredients_Click(null, EventArgs.Empty);
+                }
+                else if (_currentView == ViewMode.Categories)
+                {
+                    ok = await _recipeService.DeleteCategoryAsync(id);
+                    if (!ok)
+                        MessageBox.Show("Could not delete category. It may be used by one or more recipes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                        MessageBox.Show("Category deleted.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    BtnShowCategories_Click(null, EventArgs.Empty);
+                }
+                else
+                {
+                    MessageBox.Show("Delete is not available for the current view.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not delete item: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }
