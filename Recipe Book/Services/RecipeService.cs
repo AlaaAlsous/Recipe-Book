@@ -144,6 +144,21 @@ namespace Recipe_Book.Services
             return await _context.Categories.ToListAsync();
         }
 
+        public async Task<bool> DeleteIngredientAsync(int id)
+        {
+            var ingredient = await _context.Ingredients.FindAsync(id);
+            if (ingredient == null)
+                return false;
+
+            var used = await _context.RecipeIngredients.AnyAsync(ri => ri.IngredientId == id);
+            if (used)
+                return false;
+
+            _context.Ingredients.Remove(ingredient);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task UpdateRecipeAsync(
             int recipeId,
             string recipeName,
