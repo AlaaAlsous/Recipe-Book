@@ -159,6 +159,21 @@ namespace Recipe_Book.Services
             return true;
         }
 
+        public async Task<bool> DeleteCategoryAsync(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+                return false;
+
+            var used = await _context.RecipeCategories.AnyAsync(rc => rc.CategoryId == id);
+            if (used)
+                return false;
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task UpdateRecipeAsync(
             int recipeId,
             string recipeName,
