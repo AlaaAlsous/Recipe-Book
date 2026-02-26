@@ -38,6 +38,7 @@
             button3 = new Button();
             dataGridView1 = new DataGridView();
             button4 = new Button();
+            buttonDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -66,7 +67,7 @@
             button1.FlatStyle = FlatStyle.Flat;
             button1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             button1.ForeColor = Color.White;
-            button1.Location = new Point(222, 131);
+            button1.Location = new Point(129, 131);
             button1.Name = "button1";
             button1.Size = new Size(180, 55);
             button1.TabIndex = 1;
@@ -84,7 +85,7 @@
             button2.FlatStyle = FlatStyle.Flat;
             button2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             button2.ForeColor = Color.White;
-            button2.Location = new Point(594, 131);
+            button2.Location = new Point(501, 131);
             button2.Name = "button2";
             button2.Size = new Size(180, 55);
             button2.TabIndex = 2;
@@ -102,7 +103,7 @@
             button3.FlatStyle = FlatStyle.Flat;
             button3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             button3.ForeColor = Color.White;
-            button3.Location = new Point(780, 131);
+            button3.Location = new Point(687, 131);
             button3.Name = "button3";
             button3.Size = new Size(180, 55);
             button3.TabIndex = 3;
@@ -154,15 +155,34 @@
             button4.FlatAppearance.BorderSize = 0;
             button4.FlatAppearance.MouseOverBackColor = Color.FromArgb(56, 142, 60);
             button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            button4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button4.ForeColor = Color.White;
-            button4.Location = new Point(408, 131);
+            button4.Location = new Point(315, 131);
             button4.Name = "button4";
             button4.Size = new Size(180, 55);
             button4.TabIndex = 5;
             button4.Text = "Show Recipe";
             button4.UseVisualStyleBackColor = false;
+            button4.Visible = false;
             button4.Click += BtnShowRecipeIngredients_Click;
+            // 
+            // buttonDelete
+            // 
+            buttonDelete.Anchor = AnchorStyles.None;
+            buttonDelete.BackColor = Color.DarkRed;
+            buttonDelete.Cursor = Cursors.Hand;
+            buttonDelete.FlatAppearance.BorderSize = 0;
+            buttonDelete.FlatStyle = FlatStyle.Flat;
+            buttonDelete.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonDelete.ForeColor = Color.White;
+            buttonDelete.Location = new Point(873, 131);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(180, 55);
+            buttonDelete.TabIndex = 6;
+            buttonDelete.Text = "Delete";
+            buttonDelete.UseVisualStyleBackColor = false;
+            buttonDelete.Visible = false;
+            buttonDelete.Click += BtnDelete_Click;
             // 
             // ShowForm
             // 
@@ -171,6 +191,7 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1182, 653);
             Controls.Add(button4);
+            Controls.Add(buttonDelete);
             Controls.Add(dataGridView1);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -195,6 +216,7 @@
         private Button button2;
         private Button button3;
         private DataGridView dataGridView1;
-        private Button button4;
+    	private Button button4;
+    	private Button buttonDelete;
     }
 }

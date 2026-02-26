@@ -9,6 +9,8 @@ namespace Recipe_Book.Forms
     public partial class ShowForm : Form
     {
         private readonly RecipeService _recipeService;
+        private enum ViewMode { None, Recipes, Ingredients, Categories, RecipeIngredients }
+        private ViewMode _currentView = ViewMode.None;
 
         public ShowForm(RecipeService recipeService)
         {
@@ -20,6 +22,9 @@ namespace Recipe_Book.Forms
         {
             try
             {
+                _currentView = ViewMode.Recipes;
+                buttonDelete.Visible = false;
+                button4.Visible = true;
                 var recipes = await _recipeService.GetAllRecipesAsync();
 
                 dataGridView1.Columns.Clear();
@@ -46,16 +51,21 @@ namespace Recipe_Book.Forms
         {
             try
             {
+                _currentView = ViewMode.Ingredients;
+                buttonDelete.Visible = true;
+                button4.Visible = false;
                 var ingredients = await _recipeService.GetAllIngredientsAsync();
 
                 dataGridView1.Columns.Clear();
                 dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Add("Id", "Id");
+                dataGridView1.Columns["Id"]!.Visible = false;
                 dataGridView1.Columns.Add("Name", "Name");
                 dataGridView1.Columns.Add("QuantityUnit", "Quantity Unit");
 
                 foreach (var i in ingredients)
                 {
-                    dataGridView1.Rows.Add(i.Name, i.QuantityUnit);
+                    dataGridView1.Rows.Add(i.IngredientId, i.Name, i.QuantityUnit);
                 }
             }
             catch (Exception ex)
@@ -66,15 +76,27 @@ namespace Recipe_Book.Forms
 
         private async void BtnShowCategories_Click(object? sender, EventArgs e)
         {
-            var categories = await _recipeService.GetAllCategoriesAsync();
-
-            dataGridView1.Columns.Clear();
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Add("Name", "Category Name");
-
-            foreach (var c in categories)
+            try
             {
-                dataGridView1.Rows.Add(c.Name);
+                _currentView = ViewMode.Categories;
+                buttonDelete.Visible = true;
+                button4.Visible = false;
+                var categories = await _recipeService.GetAllCategoriesAsync();
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+                dataGridView1.Columns.Add("Id", "Id");
+                dataGridView1.Columns["Id"]!.Visible = false;
+                dataGridView1.Columns.Add("Name", "Category Name");
+
+                foreach (var c in categories)
+                {
+                    dataGridView1.Rows.Add(c.CategoryId, c.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not load categories: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -82,6 +104,8 @@ namespace Recipe_Book.Forms
         {
             try
             {
+                _currentView = ViewMode.RecipeIngredients;
+                buttonDelete.Visible = false;
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a recipe to view its ingredients.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
