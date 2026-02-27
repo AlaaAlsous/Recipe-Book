@@ -26,6 +26,8 @@
             BtnEdit = new Button();
             BtnDelete = new Button();
             BtnShow = new Button();
+            txtSearch = new TextBox();
+            BtnSearch = new Button();
             dgvRecipes = new DataGridView();
             RecipeId = new DataGridViewTextBoxColumn();
             RecipeName = new DataGridViewTextBoxColumn();
@@ -120,6 +122,34 @@
             BtnShow.UseVisualStyleBackColor = false;
             BtnShow.Click += BtnShow_Click;
             // 
+            // txtSearch
+            // 
+            txtSearch.Anchor = AnchorStyles.None;
+            txtSearch.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSearch.Location = new Point(276, 86);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Search by name, ingredient or category";
+            txtSearch.Size = new Size(650, 27);
+            txtSearch.TabIndex = 6;
+            txtSearch.KeyDown += TxtSearch_KeyDown;
+            // 
+            // BtnSearch
+            // 
+            BtnSearch.Anchor = AnchorStyles.None;
+            BtnSearch.BackColor = Color.FromArgb(33, 150, 243);
+            BtnSearch.Cursor = Cursors.Hand;
+            BtnSearch.FlatAppearance.BorderSize = 0;
+            BtnSearch.FlatStyle = FlatStyle.Flat;
+            BtnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BtnSearch.ForeColor = Color.White;
+            BtnSearch.Location = new Point(932, 82);
+            BtnSearch.Name = "BtnSearch";
+            BtnSearch.Size = new Size(120, 34);
+            BtnSearch.TabIndex = 7;
+            BtnSearch.Text = "Search";
+            BtnSearch.UseVisualStyleBackColor = false;
+            BtnSearch.Click += BtnSearch_Click;
+            // 
             // dgvRecipes
             // 
             dgvRecipes.AllowUserToAddRows = false;
@@ -191,6 +221,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1178, 649);
+            Controls.Add(BtnSearch);
+            Controls.Add(txtSearch);
             Controls.Add(dgvRecipes);
             Controls.Add(BtnShow);
             Controls.Add(BtnDelete);
@@ -217,6 +249,8 @@
         private Button BtnEdit;
         private Button BtnDelete;
         private Button BtnShow;
+        private TextBox txtSearch;
+        private Button BtnSearch;
         private DataGridView dgvRecipes;
         private DataGridViewTextBoxColumn RecipeId;
         private DataGridViewTextBoxColumn RecipeName;
