@@ -54,6 +54,16 @@ namespace Recipe_Book
             }
         }
 
+        private async void TxtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                await LoadRecipes(txtSearch?.Text);
+            }
+        }
+
         private async void BtnCreate_Click(object sender, EventArgs e)
         {
             try
