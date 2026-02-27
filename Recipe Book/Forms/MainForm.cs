@@ -15,11 +15,20 @@ namespace Recipe_Book
             Load += async (s, e) => await LoadRecipes();
         }
 
-        private async Task LoadRecipes()
+        private async Task LoadRecipes(string? query = null)
         {
             try
             {
-                var recipes = await _recipeService.GetAllRecipesAsync();
+                List<Recipe> recipes;
+                if (string.IsNullOrWhiteSpace(query))
+                {
+                    recipes = await _recipeService.GetAllRecipesAsync();
+                }
+                else
+                {
+                    recipes = await _recipeService.SearchRecipesAsync(query);
+                }
+
                 dgvRecipes.Rows.Clear();
                 foreach (var recipe in recipes)
                 {
@@ -29,6 +38,19 @@ namespace Recipe_Book
             catch (Exception ex)
             {
                 MessageBox.Show($"Could not load recipes: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void BtnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var q = txtSearch?.Text ?? string.Empty;
+                await LoadRecipes(q);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Search failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
