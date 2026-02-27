@@ -124,6 +124,24 @@ namespace Recipe_Book.Services
                 .ToListAsync();
         }
 
+        public async Task<List<Recipe>> SearchRecipesAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return await GetAllRecipesAsync();
+
+            var lookup = query.Trim().ToLowerInvariant();
+
+            return await _context.Recipes
+                .Include(r => r.RecipeIngredients)
+                    .ThenInclude(ri => ri.Ingredient)
+                .Include(r => r.RecipeCategories)
+                    .ThenInclude(rc => rc.Category)
+                .Where(r => (r.Name != null && r.Name.ToLower().Contains(lookup))
+                            || r.RecipeIngredients.Any(ri => ri.Ingredient != null && ri.Ingredient.Name != null && ri.Ingredient.Name.ToLower().Contains(lookup))
+                            || r.RecipeCategories.Any(rc => rc.Category != null && rc.Category.Name != null && rc.Category.Name.ToLower().Contains(lookup)))
+                .ToListAsync();
+        }
+
         public async Task<Recipe?> GetRecipeByIdAsync(int id)
         {
             return await _context.Recipes
