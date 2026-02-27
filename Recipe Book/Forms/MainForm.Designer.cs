@@ -31,6 +31,7 @@
             dgvRecipes = new DataGridView();
             RecipeId = new DataGridViewTextBoxColumn();
             RecipeName = new DataGridViewTextBoxColumn();
+            Category = new DataGridViewTextBoxColumn();
             UpdateAt = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dgvRecipes).BeginInit();
             SuspendLayout();
@@ -165,7 +166,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dgvRecipes.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvRecipes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRecipes.Columns.AddRange(new DataGridViewColumn[] { RecipeId, RecipeName, UpdateAt });
+            dgvRecipes.Columns.AddRange(new DataGridViewColumn[] { RecipeId, RecipeName, Category, UpdateAt });
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle3.BackColor = Color.White;
             dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -184,7 +185,7 @@
             dgvRecipes.RowHeadersVisible = false;
             dgvRecipes.RowHeadersWidth = 51;
             dgvRecipes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvRecipes.Size = new Size(836, 487);
+            dgvRecipes.Size = new Size(862, 487);
             dgvRecipes.TabIndex = 5;
             // 
             // RecipeId
@@ -205,7 +206,15 @@
             RecipeName.MinimumWidth = 6;
             RecipeName.Name = "RecipeName";
             RecipeName.ReadOnly = true;
-            RecipeName.Width = 575;
+            RecipeName.Width = 400;
+            // 
+            // Category
+            // 
+            Category.HeaderText = "Category";
+            Category.MinimumWidth = 6;
+            Category.Name = "Category";
+            Category.ReadOnly = true;
+            Category.Width = 200;
             // 
             // UpdateAt
             // 
@@ -254,6 +263,7 @@
         private DataGridView dgvRecipes;
         private DataGridViewTextBoxColumn RecipeId;
         private DataGridViewTextBoxColumn RecipeName;
+        private DataGridViewTextBoxColumn Category;
         private DataGridViewTextBoxColumn UpdateAt;
     }
 }

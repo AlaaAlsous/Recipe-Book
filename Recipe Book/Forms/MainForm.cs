@@ -32,7 +32,14 @@ namespace Recipe_Book
                 dgvRecipes.Rows.Clear();
                 foreach (var recipe in recipes)
                 {
-                    dgvRecipes.Rows.Add(recipe.RecipeId, recipe.Name, recipe.UpdatedAt);
+                    var categories = recipe.RecipeCategories?
+                        .Select(rc => rc.Category?.Name)
+                        .Where(n => !string.IsNullOrWhiteSpace(n))
+                        .Select(n => n!.Trim())
+                        .ToList() ?? new List<string>();
+
+                    var categoriesText = string.Join(", ", categories);
+                    dgvRecipes.Rows.Add(recipe.RecipeId, recipe.Name, categoriesText, recipe.UpdatedAt);
                 }
             }
             catch (Exception ex)
