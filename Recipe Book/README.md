@@ -25,7 +25,15 @@ Observera: SQL Server kan behöva några sekunder för att bli redo. Vänta 10�
 docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-NET.25-Password!" -Q "CREATE DATABASE net25_db; CREATE LOGIN [net25] WITH PASSWORD = 'Secret-NET.25-Password!'; USE net25_db; CREATE USER [net25] FOR LOGIN [net25]; ALTER ROLE db_owner ADD MEMBER [net25];" -C
 ```
 
-4) Starta programmet:
+4) Applicera befintliga migrations
+
+ - Se till att SQL Server-containern är igång.
+ - Öppna terminal i projektmappen (där `.csproj` finns).
+ - (Valfritt) installera EF CLI: `dotnet tool install --global dotnet-ef`.
+ - Lista migrations: `dotnet ef migrations list`.
+ - Applicera migrations: `dotnet ef database update`.
+
+5) Starta programmet:
 
 - Klona repot.
 - Öppna projektet i Visual Studio eller kör `dotnet run` i projektmappen.
@@ -77,20 +85,4 @@ docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U net25 -P 
   - Index och constraints: namnfält är markerade som unika i modellerna för att undvika dubbletter; relationer och OnDelete-beteenden definieras i `Data/RecipeDbContext.cs`.
 
 Alla operationer använder Entity Framework Core (parameteriserade anrop) och sparas via `_context.SaveChangesAsync()` i `RecipeService`, vilket skyddar mot SQL‑injektion och håller logiken samlad i servicelagret.
-
-
-## Varför Entity Framework?
-
-- Mindre SQL-kod – Du skriver C# istället för långa SQL-frågor, vilket gör utvecklingen snabbare och koden renare.
-- Skydd mot SQL injection – Parameterisering används automatiskt när du kör LINQ-frågor, vilket gör koden säkrare.
-- Automatisk mapping (ORM) – Tabeller och kolumner mappas direkt till klasser och properties, så du jobbar med objekt istället för råa databastabeller.
-- Change Tracking – EF håller koll på ändringar i objekt och uppdaterar databasen korrekt när du sparar.
-- Migrationer – Du kan uppdatera databasschemat via kod och versionshantera ändringar enkelt.
-- LINQ-stöd – Stark typning, IntelliSense och compile-time fel gör frågorna lättare att skriva och läsa.
-
-## Kort analys
-
-- Modell: Recept, ingredienser och kategorier ligger i egna tabeller. Det minskar dubbletter och gör det lättare att uppdatera data.
-- Prestanda: Index på namn och FK gör sökningar snabbare. Vid många poster, visa sida för sida (paginering) och hämta bara de kolumner som behövs.
-- Läsning: `Include` hämtar relaterad data men kan bli tungt för stora listor. Använd projektion (Select) eller paginering när det behövs.
-
+ 
