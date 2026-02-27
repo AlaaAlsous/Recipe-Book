@@ -103,7 +103,7 @@
             txtCategories.Font = new Font("Segoe UI", 10F);
             txtCategories.Location = new Point(189, 171);
             txtCategories.Name = "txtCategories";
-            txtCategories.PlaceholderText = "Enter categories separated by commas (e.g., Dessert, Main Course)...";
+            txtCategories.PlaceholderText = " Enter categories separated by commas (e.g., Dessert, Main Course)...";
             txtCategories.Size = new Size(759, 30);
             txtCategories.TabIndex = 9;
             // 
@@ -116,7 +116,7 @@
             txtIngName.Font = new Font("Segoe UI", 10F);
             txtIngName.Location = new Point(292, 322);
             txtIngName.Name = "txtIngName";
-            txtIngName.PlaceholderText = "Enter ingredient name...";
+            txtIngName.PlaceholderText = " Enter ingredient name...";
             txtIngName.Size = new Size(410, 30);
             txtIngName.TabIndex = 8;
             // 
@@ -129,7 +129,7 @@
             txtInstructions.Font = new Font("Segoe UI", 10F);
             txtInstructions.Location = new Point(189, 117);
             txtInstructions.Name = "txtInstructions";
-            txtInstructions.PlaceholderText = "Enter cooking instructions (optional)...";
+            txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
             txtInstructions.Size = new Size(759, 30);
             txtInstructions.TabIndex = 7;
             // 
@@ -142,7 +142,7 @@
             txtDescription.Font = new Font("Segoe UI", 10F);
             txtDescription.Location = new Point(189, 64);
             txtDescription.Name = "txtDescription";
-            txtDescription.PlaceholderText = "Enter a short description (optional)...";
+            txtDescription.PlaceholderText = " Enter a short description (optional)...";
             txtDescription.Size = new Size(759, 30);
             txtDescription.TabIndex = 6;
             // 
@@ -155,7 +155,7 @@
             txtName.Font = new Font("Segoe UI", 10F);
             txtName.Location = new Point(189, 11);
             txtName.Name = "txtName";
-            txtName.PlaceholderText = "Enter recipe name...";
+            txtName.PlaceholderText = " Enter recipe name...";
             txtName.Size = new Size(759, 30);
             txtName.TabIndex = 5;
             // 
@@ -404,6 +404,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1182, 653);
             Controls.Add(dataGridView1);
             Controls.Add(BtnAddIng);

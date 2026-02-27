@@ -126,11 +126,12 @@
             // txtSearch
             // 
             txtSearch.Anchor = AnchorStyles.None;
-            txtSearch.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtSearch.Location = new Point(276, 86);
             txtSearch.Name = "txtSearch";
-            txtSearch.PlaceholderText = "Search by name, ingredient or category";
-            txtSearch.Size = new Size(650, 27);
+            txtSearch.PlaceholderText = " Search by name, ingredient or category";
+            txtSearch.Size = new Size(650, 30);
             txtSearch.TabIndex = 6;
             txtSearch.KeyDown += TxtSearch_KeyDown;
             // 
@@ -143,7 +144,7 @@
             BtnSearch.FlatStyle = FlatStyle.Flat;
             BtnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnSearch.ForeColor = Color.White;
-            BtnSearch.Location = new Point(932, 82);
+            BtnSearch.Location = new Point(932, 84);
             BtnSearch.Name = "BtnSearch";
             BtnSearch.Size = new Size(120, 34);
             BtnSearch.TabIndex = 7;
@@ -229,6 +230,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1178, 649);
             Controls.Add(BtnSearch);
             Controls.Add(txtSearch);
