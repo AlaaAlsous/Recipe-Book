@@ -1,88 +1,205 @@
-# Recipe Book — Instruktioner
+# Recipe Book
 
-Detta är ett enkelt program för att spara och visa recept. Det använder Entity Framework Core (EF) och Microsoft SQL Server.
+![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
+![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
+![EF Core](https://img.shields.io/badge/EF%20Core-Entity%20Framework-blue)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-CC2927)
+![Type](https://img.shields.io/badge/Type-WinForms%20App-darkcyan)
+![License](https://img.shields.io/badge/License-MIT-green)
 
-## Snabbstart — steg för steg (kopiera/klistra i terminalen)
+---
 
-1) Hämta SQL Server Docker-image:
+## Beskrivning
+
+**Recipe Book** är en modern WinForms-applikation byggd med .NET 10 och C# för att hantera recept, ingredienser och kategorier via ett grafiskt användargränssnitt. 
+
+Data lagras i en Microsoft SQL Server-databas och all databasinteraktion sker med Entity Framework Core för robust och asynkron hantering.
+
+
+Applikationen är strukturerad i modulära klasser (Recipe, Ingredient, Category, RecipeIngredient, RecipeCategory) som kapslar in respektive domänfunktion. Tjänstelagret (RecipeService) hanterar CRUD-operationer och affärslogik, medan olika formulär (MainForm, CreateRecipeForm, EditRecipeForm, ShowForm) sköter UI och användarflöden.
+
+
+Databasen skapas automatiskt vid start med tabeller, unika index och relationshantering (many-to-many) via kopplingstabeller. On-delete-beteenden och constraints säkerställer dataintegritet, och all dataoperation sker asynkront för bästa prestanda och användarupplevelse.
+
+---
+
+## Funktioner
+
+- Skapa recept: lägga till namn, beskrivning, instruktioner samt ingredienser och kategorier.
+- Visa och söka recept: lista alla recept, sök och öppna detaljer för att se fullständig ingredienslista.
+- Redigera recept: ändra receptdata, uppdatera mängder/enheter och ändra tillhörande kategorier.
+- Ta bort recept: radera ett recept; kopplingar i `RecipeIngredients` och `RecipeCategories` tas bort automatiskt.
+- Hantera ingredienser: skapa och uppdatera ingredienser med unika namn och standardenheter för återanvändning.
+- Hantera kategorier: skapa och återanvänd kategorier med unika namn för enkel organisering.
+- Många-till-många-relationer: stöd för flera ingredienser och kategorier per recept via kopplingstabeller.
+- Asynkrona databasanrop: använder `SaveChangesAsync()` för bättre respons i gränssnittet.
+- Automatisk databasuppsättning: databas och tabeller skapas vid första körning med `EnsureCreated()` eller via migrationer.
+- Dataintegritet: unika index och on-delete-regler (cascade/restrict) säkerställer konsistens och förhindrar oavsiktlig borttagning.
+
+---
+
+## Projektstruktur
+
+```plaintext
+RecipeBook/
+├─ RecipeBook.csproj
+├─ Program.cs
+├─ Data/
+│  └─ RecipeDbContext.cs
+├─ Models/
+│  ├─ Recipe.cs
+│  ├─ Ingredient.cs
+│  ├─ Category.cs
+│  ├─ RecipeIngredient.cs
+│  └─ RecipeCategory.cs
+├─ Services/
+│  ├─ RecipeService.cs
+│  └─ RecipeFormHelper.cs
+├─ Forms/
+│  ├─ MainForm.cs
+│  ├─ CreateRecipeForm.cs
+│  ├─ EditRecipeForm.cs
+│  └─ ShowForm.cs
+├─ Assets/
+│  └─ (bilder, ikoner)
+├─ Migrations/
+└─ README.md
+```
+---
+
+## Systemkrav
+
+- .NET SDK 10 (Target Framework: `net10.0`)
+- Microsoft SQL Server (kan köras i Docker)
+- Visual Studio eller VS Code med C#-stöd
+
+---
+
+## Installation
+
+### 1. Klona projektet
 
 ```bash
-docker pull mcr.microsoft.com/mssql/server:2022-latest
+git clone https://github.com/AlaaAlsous/recipebook.git
 ```
 
-2) Starta en SQL Server-container:
+### 2. Installera beroenden
+
+Se till att .NET SDK 10 är installerat.
+
+### 3. Starta SQL Server med Docker (rekommenderas)
 
 ```bash
-docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Secret-NET.25-Password!" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
+- docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+- docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Secret-Recipe-Book-Password!" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
-Observera: SQL Server kan behöva några sekunder för att bli redo. Vänta 10–20 sekunder innan nästa steg.
-
-3) Skapa databasen `net25_db` och användaren `net25` (kopiera/klistra):
+Skapa databas och användare:
 
 ```bash
-# Skapar databasen net25_db och användaren net25 med samma lösenord
-docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-NET.25-Password!" -Q "CREATE DATABASE net25_db; CREATE LOGIN [net25] WITH PASSWORD = 'Secret-NET.25-Password!'; USE net25_db; CREATE USER [net25] FOR LOGIN [net25]; ALTER ROLE db_owner ADD MEMBER [net25];" -C
+- docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-Recipe-Book-Password!" -Q "CREATE DATABASE recipe_book_db;" -C
+
+- docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-Recipe-Book-Password!" -d recipe_book_db -Q "CREATE LOGIN [recipebook] WITH PASSWORD = 'Secret-Recipe-Book-Password!'; CREATE USER [recipebook] FOR LOGIN [recipebook]; ALTER ROLE db_owner ADD MEMBER [recipebook];" -C
 ```
 
-4) Applicera befintliga migrations
-
- - Se till att SQL Server-containern är igång.
- - Öppna terminal i projektmappen (där `.csproj` finns).
- - (Valfritt) installera EF CLI: `dotnet tool install --global dotnet-ef`.
- - Lista migrations: `dotnet ef migrations list`.
- - Applicera migrations: `dotnet ef database update`.
-
-5) Starta programmet:
-
-- Klona repot.
-- Öppna projektet i Visual Studio eller kör `dotnet run` i projektmappen.
-
-5) Vad programmet gör automatiskt vid start:
-
-- Programmet kör `context.Database.EnsureCreated()` (se `Program.cs`).
-- Det betyder: om databasen och tabellerna inte finns skapas de automatiskt från EF-modellen.
-- Du behöver alltså inte skapa tabeller manuellt efter steg 3.
-
-
-## Anslutningsinställningar (standard)
-
-Fil: `Data/RecipeDbContext.cs` (metoden `OnConfiguring`)
-
-- Server: `localhost,1433`
-- Database: `net25_db`
-- User: `net25`
-- Password: `Secret-NET.25-Password!`
-
-
-## Snabb kontroll efter start
-
-Om du vill kontrollera att tabeller skapats, kör detta (kopiera):
+### 4. Applicera migrationer
 
 ```bash
-# Lista tabeller
-docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U net25 -P "Secret-NET.25-Password!" -d net25_db -Q "SELECT name FROM sys.tables;" -C
+dotnet tool install --global dotnet-ef
+
+dotnet ef database update
 ```
 
+### 5. Kör applikationen
 
-## En översiktlig guide för hur programmet fungerar
+```bash
+dotnet run --project RecipeBook.csproj
+```
 
-- Lägga till recept med ingredienser och kategorier
-  - Använd GUI: öppna "Skapa recept" (fil: `Forms/CreateRecipeForm.cs`).
-  - Ingredienser lägger du till i formulärets ingrediensfält och de visas i en lista/grid innan du sparar.
-  - Kategorier anges som kommaseparerad text och tolkas av `RecipeFormHelper`.
-  - När du sparar anropas `Services/RecipeService.AddRecipeAsync`: receptet sparas i `Recipes`, nya ingredienser och kategorier skapas i `Ingredients`/`Categories` om de saknas, och kopplingar läggs i `RecipeIngredients`/`RecipeCategories`.
+---
 
-- Spara, visa, redigera och ta bort recept
-  - Huvudfönstret visar receptlistan (`Forms/MainForm.cs`), där du kan redigera eller ta bort ett recept.
-  - Visa detaljer: `Forms/ShowForm.cs` (hämtar recept med `Include` för ingredienser och kategorier via `RecipeService`).
-  - Redigera: `Forms/EditRecipeForm.cs` skickar uppdaterade värden till `RecipeService.UpdateRecipeAsync`, vilket ersätter gamla kopplingar och sparar nya.
-  - Ta bort: `RecipeService.DeleteRecipeAsync` tar bort receptet; försök att ta bort en ingrediens som används förhindras av `DeleteIngredientAsync`.
+## Användning
 
-- Datamodellen (tabeller och relationer)
-  - Huvudtabeller: `Recipes`, `Ingredients`, `Categories` (finns i `Models/`).
-  - Kopplingstabeller: `RecipeIngredients` (lagrar även `Quantity` och `Unit`) och `RecipeCategories` för många-till-många-relationer.
-  - Index och constraints: namnfält är markerade som unika i modellerna för att undvika dubbletter; relationer och OnDelete-beteenden definieras i `Data/RecipeDbContext.cs`.
+Vid start öppnas huvudfönstret där du kan:
 
-Alla operationer använder Entity Framework Core (parameteriserade anrop) och sparas via `_context.SaveChangesAsync()` i `RecipeService`, vilket skyddar mot SQL‑injektion och håller logiken samlad i servicelagret.
- 
+- Skapa nya recept med ingredienser och kategorier
+- Söka, visa, redigera och ta bort recept
+- Hantera ingredienser och kategorier
+
+---
+
+## Databasdesign
+
+Databasen är designad för att hantera recept, ingredienser och kategorier med stöd för många-till-många-relationer. Nedan beskrivs tabeller, kolumner och relationer så som de faktiskt är implementerade:
+
+### Tabeller
+
+- **Recipes**
+  - `RecipeId` (int, PK, auto-increment): Unikt ID för varje recept
+  - `Name` (nvarchar(200), UNIQUE, NOT NULL): Namn på receptet
+  - `Description` (nvarchar(1000), NULL): Beskrivning av receptet
+  - `Instructions` (nvarchar(2000), NULL): Instruktioner för tillagning
+  - `CreatedAt` (datetime2, NOT NULL): Skapandedatum
+  - `UpdatedAt` (datetime2, NOT NULL): Senaste ändringsdatum
+
+- **Ingredients**
+  - `IngredientId` (int, PK, auto-increment): Unikt ID för varje ingrediens
+  - `Name` (nvarchar(200), UNIQUE, NOT NULL): Namn på ingrediensen
+  - `QuantityUnit` (nvarchar(50), NOT NULL): Standardenhet för ingrediensen
+
+- **Categories**
+  - `CategoryId` (int, PK, auto-increment): Unikt ID för varje kategori
+  - `Name` (nvarchar(100), UNIQUE, NOT NULL): Namn på kategorin
+
+- **RecipeIngredients**
+  - `RecipeId` (int, FK): Referens till `Recipes.RecipeId`
+  - `IngredientId` (int, FK): Referens till `Ingredients.IngredientId`
+  - `Quantity` (decimal, NOT NULL): Mängd av ingrediensen
+  - `Unit` (nvarchar(50), NOT NULL): Enhet (t.ex. g, ml, st)
+  - **Primärnyckel:** (`RecipeId`, `IngredientId`)
+
+- **RecipeCategories**
+  - `RecipeId` (int, FK): Referens till `Recipes.RecipeId`
+  - `CategoryId` (int, FK): Referens till `Categories.CategoryId`
+  - **Primärnyckel:** (`RecipeId`, `CategoryId`)
+
+### Relationer
+
+- Ett recept kan ha flera ingredienser och kategorier (many-to-many)
+- Ingredienser och kategorier kan återanvändas i flera recept
+- Kopplingstabellerna `RecipeIngredients` och `RecipeCategories` hanterar dessa relationer
+
+### On-Delete-beteenden
+
+- Om ett recept tas bort:
+  - Relaterade poster i `RecipeIngredients` och `RecipeCategories` tas bort (Cascade)
+- Om en ingrediens eller kategori tas bort:
+  - Kan endast tas bort om de inte används i något recept (Restrict)
+  - Relaterade poster i kopplingstabeller tas inte bort automatiskt
+
+### Entity Framework-konfiguration
+
+- Relationer och on-delete-beteenden konfigureras i `RecipeDbContext` med `modelBuilder` och `Fluent API`.
+- Unika namn för recept, ingredienser och kategorier säkerställs med `HasIndex(...).IsUnique()`.
+- Automatisk skapande av databas och tabeller via `EnsureCreated()`.
+
+---
+
+## Teknisk miljö
+
+- Target Framework: `net10.0`
+- Paket:
+  - `Microsoft.EntityFrameworkCore`
+  - `Microsoft.EntityFrameworkCore.SqlServer`
+  - `Microsoft.EntityFrameworkCore.Design`
+
+---
+
+## Utvecklare
+
+**Alaa Alsous**
+
+Språk: C#  
+Plattform: .NET 10  
+Verktyg: Visual Studio
