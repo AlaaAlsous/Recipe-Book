@@ -13,7 +13,7 @@ namespace Recipe_Book.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=localhost,1433;Database=net25_db;User Id=net25;Password=Secret-NET.25-Password!;TrustServerCertificate=True;Encrypt=True;");
+			optionsBuilder.UseSqlServer("Server=localhost,1433;Database=recipe_book_db;User Id=recipebook;Password=Secret-Recipe-Book-Password!;TrustServerCertificate=True;Encrypt=True;");
 		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,13 +27,13 @@ namespace Recipe_Book.Data
 				.HasForeignKey(ri => ri.RecipeId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<RecipeIngredient>()
+			modelBuilder.Entity<RecipeIngredient>()
 				.HasOne(ri => ri.Ingredient)
 				.WithMany(i => i.RecipeIngredients)
 				.HasForeignKey(ri => ri.IngredientId)
-                .OnDelete(DeleteBehavior.Restrict);
+				.OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<RecipeCategory>()
+			modelBuilder.Entity<RecipeCategory>()
 				.HasKey(rc => new { rc.RecipeId, rc.CategoryId });
 
 			modelBuilder.Entity<RecipeCategory>()
@@ -42,11 +42,11 @@ namespace Recipe_Book.Data
 				.HasForeignKey(rc => rc.RecipeId)
 				.OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<RecipeCategory>()
+			modelBuilder.Entity<RecipeCategory>()
 				.HasOne(rc => rc.Category)
 				.WithMany(c => c.RecipeCategories)
 				.HasForeignKey(rc => rc.CategoryId)
 				.OnDelete(DeleteBehavior.Restrict);
-        }
+		}
 	}
 }

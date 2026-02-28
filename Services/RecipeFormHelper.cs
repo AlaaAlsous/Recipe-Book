@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using Recipe_Book.Data;
+using Recipe_Book.Models;
 
 namespace Recipe_Book.Services
 {

@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Recipe Book",
-    "\\Recipe Book\\Forms",
-    "\\Recipe Book\\Services"
+    "\\Forms"
   ],
-  "SelectedNode": "\\Recipe Book\\Forms\\CreateRecipeForm.cs",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }
