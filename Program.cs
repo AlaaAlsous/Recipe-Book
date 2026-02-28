@@ -28,7 +28,7 @@ namespace Recipe_Book
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Det gick inte att skapa databasen:\n{ex.Message}", "Fel vid databas", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Could not create the database:\n{ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
