@@ -38,6 +38,7 @@
             button3 = new Button();
             dataGridView1 = new DataGridView();
             button4 = new Button();
+            buttonPrint = new Button();
             buttonDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
@@ -47,12 +48,12 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Tahoma", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(33, 37, 41);
-            label1.Location = new Point(539, 9);
+            label1.Location = new Point(535, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(105, 46);
+            label1.Size = new Size(113, 41);
             label1.TabIndex = 0;
             label1.Text = "Show";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -166,6 +167,24 @@
             button4.Visible = false;
             button4.Click += BtnShowRecipeIngredients_Click;
             // 
+            // buttonPrint
+            // 
+            buttonPrint.Anchor = AnchorStyles.None;
+            buttonPrint.BackColor = Color.SteelBlue;
+            buttonPrint.Cursor = Cursors.Hand;
+            buttonPrint.FlatAppearance.BorderSize = 0;
+            buttonPrint.FlatStyle = FlatStyle.Flat;
+            buttonPrint.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            buttonPrint.ForeColor = Color.White;
+            buttonPrint.Location = new Point(873, 132);
+            buttonPrint.Name = "buttonPrint";
+            buttonPrint.Size = new Size(180, 55);
+            buttonPrint.TabIndex = 7;
+            buttonPrint.Text = "Print Recipe";
+            buttonPrint.UseVisualStyleBackColor = false;
+            buttonPrint.Visible = false;
+            buttonPrint.Click += BtnPrint_Click;
+            // 
             // buttonDelete
             // 
             buttonDelete.Anchor = AnchorStyles.None;
@@ -192,6 +211,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1182, 653);
             Controls.Add(button4);
+            Controls.Add(buttonPrint);
             Controls.Add(buttonDelete);
             Controls.Add(dataGridView1);
             Controls.Add(button3);
@@ -218,6 +238,7 @@
         private Button button3;
         private DataGridView dataGridView1;
     	private Button button4;
+        private Button buttonPrint;
     	private Button buttonDelete;
     }
 }
