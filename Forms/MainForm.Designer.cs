@@ -129,9 +129,10 @@
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
             txtSearch.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtSearch.Location = new Point(276, 86);
+            txtSearch.Multiline = true;
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = " Search by name, ingredient or category";
-            txtSearch.Size = new Size(650, 30);
+            txtSearch.Size = new Size(650, 27);
             txtSearch.TabIndex = 6;
             txtSearch.KeyDown += TxtSearch_KeyDown;
             // 

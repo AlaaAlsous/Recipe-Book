@@ -101,10 +101,11 @@
             txtCategories.BorderStyle = BorderStyle.FixedSingle;
             txtCategories.Cursor = Cursors.IBeam;
             txtCategories.Font = new Font("Segoe UI", 10F);
-            txtCategories.Location = new Point(189, 171);
+            txtCategories.Location = new Point(151, 172);
+            txtCategories.Multiline = true;
             txtCategories.Name = "txtCategories";
             txtCategories.PlaceholderText = " Enter categories separated by commas (e.g., Dessert, Main Course)...";
-            txtCategories.Size = new Size(759, 30);
+            txtCategories.Size = new Size(759, 27);
             txtCategories.TabIndex = 9;
             // 
             // txtIngName
@@ -114,10 +115,11 @@
             txtIngName.BorderStyle = BorderStyle.FixedSingle;
             txtIngName.Cursor = Cursors.IBeam;
             txtIngName.Font = new Font("Segoe UI", 10F);
-            txtIngName.Location = new Point(292, 322);
+            txtIngName.Location = new Point(281, 322);
+            txtIngName.Multiline = true;
             txtIngName.Name = "txtIngName";
             txtIngName.PlaceholderText = " Enter ingredient name...";
-            txtIngName.Size = new Size(410, 30);
+            txtIngName.Size = new Size(410, 27);
             txtIngName.TabIndex = 8;
             // 
             // txtInstructions
@@ -127,10 +129,11 @@
             txtInstructions.BorderStyle = BorderStyle.FixedSingle;
             txtInstructions.Cursor = Cursors.IBeam;
             txtInstructions.Font = new Font("Segoe UI", 10F);
-            txtInstructions.Location = new Point(189, 117);
+            txtInstructions.Location = new Point(151, 119);
+            txtInstructions.Multiline = true;
             txtInstructions.Name = "txtInstructions";
             txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
-            txtInstructions.Size = new Size(759, 30);
+            txtInstructions.Size = new Size(759, 27);
             txtInstructions.TabIndex = 7;
             // 
             // txtDescription
@@ -140,10 +143,11 @@
             txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.Cursor = Cursors.IBeam;
             txtDescription.Font = new Font("Segoe UI", 10F);
-            txtDescription.Location = new Point(189, 64);
+            txtDescription.Location = new Point(151, 66);
+            txtDescription.Multiline = true;
             txtDescription.Name = "txtDescription";
             txtDescription.PlaceholderText = " Enter a short description (optional)...";
-            txtDescription.Size = new Size(759, 30);
+            txtDescription.Size = new Size(759, 27);
             txtDescription.TabIndex = 6;
             // 
             // txtName
@@ -153,10 +157,11 @@
             txtName.BorderStyle = BorderStyle.FixedSingle;
             txtName.Cursor = Cursors.IBeam;
             txtName.Font = new Font("Segoe UI", 10F);
-            txtName.Location = new Point(189, 11);
+            txtName.Location = new Point(151, 13);
+            txtName.Multiline = true;
             txtName.Name = "txtName";
             txtName.PlaceholderText = " Enter recipe name...";
-            txtName.Size = new Size(759, 30);
+            txtName.Size = new Size(759, 27);
             txtName.TabIndex = 5;
             // 
             // label6
@@ -177,9 +182,10 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label5.ForeColor = Color.FromArgb(33, 37, 41);
-            label5.Location = new Point(109, 324);
+            label5.Location = new Point(144, 315);
             label5.Name = "label5";
-            label5.Size = new Size(121, 28);
+            label5.Padding = new Padding(5, 5, 5, 8);
+            label5.Size = new Size(131, 41);
             label5.TabIndex = 3;
             label5.Text = "Ingredients:";
             // 
@@ -222,17 +228,17 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 16.59836F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 83.40164F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.9562845F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 84.04372F));
             tableLayoutPanel1.Controls.Add(label2, 0, 0);
             tableLayoutPanel1.Controls.Add(label3, 0, 1);
             tableLayoutPanel1.Controls.Add(label4, 0, 2);
             tableLayoutPanel1.Controls.Add(txtName, 1, 0);
             tableLayoutPanel1.Controls.Add(txtDescription, 1, 1);
             tableLayoutPanel1.Controls.Add(txtInstructions, 1, 2);
-            tableLayoutPanel1.Controls.Add(label6, 0, 3);
             tableLayoutPanel1.Controls.Add(txtCategories, 1, 3);
-            tableLayoutPanel1.Location = new Point(103, 73);
+            tableLayoutPanel1.Controls.Add(label6, 0, 3);
+            tableLayoutPanel1.Location = new Point(134, 73);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
@@ -240,39 +246,42 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(976, 213);
+            tableLayoutPanel1.Size = new Size(915, 213);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // txtIngQuantity
             // 
             txtIngQuantity.Anchor = AnchorStyles.None;
             txtIngQuantity.BackColor = Color.White;
-            txtIngQuantity.BorderStyle = BorderStyle.FixedSingle;
+            txtIngQuantity.BorderStyle = BorderStyle.None;
             txtIngQuantity.Cursor = Cursors.IBeam;
             txtIngQuantity.Font = new Font("Segoe UI", 10F);
-            txtIngQuantity.Location = new Point(708, 322);
+            txtIngQuantity.Location = new Point(697, 322);
+            txtIngQuantity.Multiline = true;
             txtIngQuantity.Name = "txtIngQuantity";
-            txtIngQuantity.Size = new Size(74, 30);
+            txtIngQuantity.Size = new Size(74, 27);
             txtIngQuantity.TabIndex = 12;
             // 
             // txtIngUnit
             // 
             txtIngUnit.Anchor = AnchorStyles.None;
             txtIngUnit.BackColor = Color.White;
-            txtIngUnit.BorderStyle = BorderStyle.FixedSingle;
+            txtIngUnit.BorderStyle = BorderStyle.None;
             txtIngUnit.Cursor = Cursors.IBeam;
             txtIngUnit.Font = new Font("Segoe UI", 10F);
-            txtIngUnit.Location = new Point(788, 322);
+            txtIngUnit.Location = new Point(777, 322);
+            txtIngUnit.Multiline = true;
             txtIngUnit.Name = "txtIngUnit";
-            txtIngUnit.Size = new Size(74, 30);
+            txtIngUnit.Size = new Size(74, 27);
             txtIngUnit.TabIndex = 13;
             // 
             // label7
             // 
             label7.AutoSize = true;
+            label7.BackColor = Color.WhiteSmoke;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label7.ForeColor = Color.FromArgb(80, 80, 80);
-            label7.Location = new Point(429, 299);
+            label7.Location = new Point(418, 299);
             label7.Name = "label7";
             label7.Size = new Size(128, 20);
             label7.TabIndex = 14;
@@ -281,9 +290,10 @@
             // label8
             // 
             label8.AutoSize = true;
+            label8.BackColor = Color.WhiteSmoke;
             label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label8.ForeColor = Color.FromArgb(80, 80, 80);
-            label8.Location = new Point(712, 299);
+            label8.Location = new Point(701, 299);
             label8.Name = "label8";
             label8.Size = new Size(70, 20);
             label8.TabIndex = 15;
@@ -292,9 +302,10 @@
             // label9
             // 
             label9.AutoSize = true;
+            label9.BackColor = Color.WhiteSmoke;
             label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label9.ForeColor = Color.FromArgb(80, 80, 80);
-            label9.Location = new Point(806, 299);
+            label9.Location = new Point(795, 299);
             label9.Name = "label9";
             label9.Size = new Size(39, 20);
             label9.TabIndex = 16;
@@ -309,7 +320,7 @@
             BtnAddIng.FlatStyle = FlatStyle.Flat;
             BtnAddIng.Font = new Font("Segoe UI", 9F);
             BtnAddIng.ForeColor = Color.White;
-            BtnAddIng.Location = new Point(868, 322);
+            BtnAddIng.Location = new Point(857, 322);
             BtnAddIng.Name = "BtnAddIng";
             BtnAddIng.Size = new Size(88, 30);
             BtnAddIng.TabIndex = 17;
@@ -326,7 +337,7 @@
             BtnRemoveIng.FlatStyle = FlatStyle.Flat;
             BtnRemoveIng.Font = new Font("Segoe UI", 9F);
             BtnRemoveIng.ForeColor = Color.White;
-            BtnRemoveIng.Location = new Point(962, 321);
+            BtnRemoveIng.Location = new Point(951, 321);
             BtnRemoveIng.Name = "BtnRemoveIng";
             BtnRemoveIng.Size = new Size(88, 30);
             BtnRemoveIng.TabIndex = 19;
