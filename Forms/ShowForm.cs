@@ -3,12 +3,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Recipe_Book.Services;
+using System.Drawing.Printing;
 
 namespace Recipe_Book.Forms
 {
     public partial class ShowForm : Form
     {
         private readonly RecipeService _recipeService;
+        private PrintDocument _printDocument;
+        private string _printText = string.Empty;
+        private Font _printFont = new Font("Segoe UI", 10);
         private enum ViewMode { None, Recipes, Ingredients, Categories, RecipeIngredients }
         private ViewMode _currentView = ViewMode.None;
 
@@ -16,6 +20,8 @@ namespace Recipe_Book.Forms
         {
             InitializeComponent();
             _recipeService = recipeService;
+            _printDocument = new PrintDocument();
+            _printDocument.PrintPage += PrintDocument_PrintPage;
         }
 
         private async void BtnShowRecipes_Click(object? sender, EventArgs e)
@@ -25,6 +31,7 @@ namespace Recipe_Book.Forms
                 _currentView = ViewMode.Recipes;
                 buttonDelete.Visible = false;
                 button4.Visible = true;
+                buttonPrint.Visible = true;
                 var recipes = await _recipeService.GetAllRecipesAsync();
 
                 dataGridView1.Columns.Clear();
@@ -54,6 +61,7 @@ namespace Recipe_Book.Forms
                 _currentView = ViewMode.Ingredients;
                 buttonDelete.Visible = true;
                 button4.Visible = false;
+                buttonPrint.Visible = false;
                 var ingredients = await _recipeService.GetAllIngredientsAsync();
 
                 dataGridView1.Columns.Clear();
@@ -81,6 +89,7 @@ namespace Recipe_Book.Forms
                 _currentView = ViewMode.Categories;
                 buttonDelete.Visible = true;
                 button4.Visible = false;
+                buttonPrint.Visible = false;
                 var categories = await _recipeService.GetAllCategoriesAsync();
 
                 dataGridView1.Columns.Clear();
@@ -106,6 +115,7 @@ namespace Recipe_Book.Forms
             {
                 _currentView = ViewMode.RecipeIngredients;
                 buttonDelete.Visible = false;
+                buttonPrint.Visible = false;
                 if (dataGridView1.SelectedRows.Count == 0)
                 {
                     MessageBox.Show("Please select a recipe to view its ingredients.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -196,6 +206,18 @@ namespace Recipe_Book.Forms
             {
                 MessageBox.Show($"Could not delete item: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void PrintDocument_PrintPage(object? sender, PrintPageEventArgs e)
+        {
+            const int margin = 40;
+            var layoutRect = new RectangleF(margin, margin, e.MarginBounds.Width, e.MarginBounds.Height);
+            var sf = new StringFormat();
+            sf.Alignment = StringAlignment.Near;
+            sf.LineAlignment = StringAlignment.Near;
+
+            e.Graphics!.DrawString(_printText, _printFont, Brushes.Black, layoutRect, sf);
+            e.HasMorePages = false;
         }
     }
 }
