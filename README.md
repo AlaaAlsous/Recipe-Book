@@ -4,6 +4,7 @@
 ![.NET](https://img.shields.io/badge/.NET-10-512BD4?logo=dotnet&logoColor=white)
 ![EF Core](https://img.shields.io/badge/EF%20Core-Entity%20Framework-blue)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-CC2927)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Type](https://img.shields.io/badge/Type-WinForms%20App-darkcyan)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
