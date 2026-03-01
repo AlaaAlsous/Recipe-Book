@@ -208,6 +208,76 @@ namespace Recipe_Book.Forms
             }
         }
 
+        private async void BtnPrint_Click(object? sender, EventArgs e)
+        {
+            try
+            {
+                if (_currentView != ViewMode.Recipes)
+                {
+                    MessageBox.Show("Select a recipe in the recipes view to print.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dataGridView1.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Please select a recipe to print.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(dataGridView1.SelectedRows[0].Cells[0].Value?.ToString(), out var recipeId))
+                {
+                    MessageBox.Show("Selected row does not contain a valid recipe id.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var recipe = await _recipeService.GetRecipeByIdAsync(recipeId);
+                if (recipe == null)
+                {
+                    MessageBox.Show("Recipe not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                var sb = new System.Text.StringBuilder();
+                sb.AppendLine(recipe.Name);
+                sb.AppendLine(new string('=', Math.Min(80, recipe.Name.Length + 5)));
+                if (!string.IsNullOrWhiteSpace(recipe.Description))
+                {
+                    sb.AppendLine("Description:");
+                    sb.AppendLine(recipe.Description);
+                    sb.AppendLine();
+                }
+                if (!string.IsNullOrWhiteSpace(recipe.Instructions))
+                {
+                    sb.AppendLine("Instructions:");
+                    sb.AppendLine(recipe.Instructions);
+                    sb.AppendLine();
+                }
+
+                if (recipe.RecipeIngredients != null && recipe.RecipeIngredients.Any())
+                {
+                    sb.AppendLine("Ingredients:");
+                    foreach (var ri in recipe.RecipeIngredients)
+                    {
+                        sb.AppendLine($"- {ri.Ingredient.Name}: {ri.Quantity} {ri.Unit}");
+                    }
+                }
+
+                _printText = sb.ToString();
+
+                using var dialog = new PrintDialog();
+                dialog.Document = _printDocument;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    _printDocument.DocumentName = recipe.Name;
+                    _printDocument.Print();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not print recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void PrintDocument_PrintPage(object? sender, PrintPageEventArgs e)
         {
             const int margin = 40;
