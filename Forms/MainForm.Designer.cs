@@ -41,12 +41,12 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Tahoma", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(33, 37, 41);
-            label1.Location = new Point(485, 9);
+            label1.Location = new Point(476, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(209, 46);
+            label1.Size = new Size(227, 41);
             label1.TabIndex = 0;
             label1.Text = "Recipe Book";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -127,12 +127,11 @@
             // 
             txtSearch.Anchor = AnchorStyles.None;
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
-            txtSearch.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSearch.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtSearch.Location = new Point(276, 86);
-            txtSearch.Multiline = true;
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = " Search by name, ingredient or category";
-            txtSearch.Size = new Size(650, 27);
+            txtSearch.Size = new Size(650, 34);
             txtSearch.TabIndex = 6;
             txtSearch.KeyDown += TxtSearch_KeyDown;
             // 
@@ -143,9 +142,9 @@
             BtnSearch.Cursor = Cursors.Hand;
             BtnSearch.FlatAppearance.BorderSize = 0;
             BtnSearch.FlatStyle = FlatStyle.Flat;
-            BtnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            BtnSearch.Font = new Font("Segoe UI", 10.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             BtnSearch.ForeColor = Color.White;
-            BtnSearch.Location = new Point(932, 84);
+            BtnSearch.Location = new Point(932, 86);
             BtnSearch.Name = "BtnSearch";
             BtnSearch.Size = new Size(120, 34);
             BtnSearch.TabIndex = 7;

@@ -66,12 +66,13 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Segoe UI Semibold", 20F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Tahoma", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(33, 37, 41);
-            label1.Location = new Point(491, 9);
+            label1.Location = new Point(477, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(189, 46);
+            label1.Padding = new Padding(5);
+            label1.Size = new Size(208, 51);
             label1.TabIndex = 3;
             label1.Text = "Edit Recipe";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -100,12 +101,11 @@
             txtCategories.BackColor = Color.White;
             txtCategories.BorderStyle = BorderStyle.FixedSingle;
             txtCategories.Cursor = Cursors.IBeam;
-            txtCategories.Font = new Font("Segoe UI", 10F);
-            txtCategories.Location = new Point(151, 172);
-            txtCategories.Multiline = true;
+            txtCategories.Font = new Font("Segoe UI", 12F);
+            txtCategories.Location = new Point(151, 169);
             txtCategories.Name = "txtCategories";
             txtCategories.PlaceholderText = " Enter categories separated by commas (e.g., Dessert, Main Course)...";
-            txtCategories.Size = new Size(759, 27);
+            txtCategories.Size = new Size(759, 34);
             txtCategories.TabIndex = 9;
             // 
             // txtIngName
@@ -114,12 +114,11 @@
             txtIngName.BackColor = Color.White;
             txtIngName.BorderStyle = BorderStyle.FixedSingle;
             txtIngName.Cursor = Cursors.IBeam;
-            txtIngName.Font = new Font("Segoe UI", 10F);
-            txtIngName.Location = new Point(281, 322);
-            txtIngName.Multiline = true;
+            txtIngName.Font = new Font("Segoe UI", 12F);
+            txtIngName.Location = new Point(285, 322);
             txtIngName.Name = "txtIngName";
             txtIngName.PlaceholderText = " Enter ingredient name...";
-            txtIngName.Size = new Size(410, 27);
+            txtIngName.Size = new Size(410, 34);
             txtIngName.TabIndex = 8;
             // 
             // txtInstructions
@@ -128,12 +127,11 @@
             txtInstructions.BackColor = Color.White;
             txtInstructions.BorderStyle = BorderStyle.FixedSingle;
             txtInstructions.Cursor = Cursors.IBeam;
-            txtInstructions.Font = new Font("Segoe UI", 10F);
-            txtInstructions.Location = new Point(151, 119);
-            txtInstructions.Multiline = true;
+            txtInstructions.Font = new Font("Segoe UI", 12F);
+            txtInstructions.Location = new Point(151, 115);
             txtInstructions.Name = "txtInstructions";
             txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
-            txtInstructions.Size = new Size(759, 27);
+            txtInstructions.Size = new Size(759, 34);
             txtInstructions.TabIndex = 7;
             // 
             // txtDescription
@@ -142,12 +140,11 @@
             txtDescription.BackColor = Color.White;
             txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.Cursor = Cursors.IBeam;
-            txtDescription.Font = new Font("Segoe UI", 10F);
-            txtDescription.Location = new Point(151, 66);
-            txtDescription.Multiline = true;
+            txtDescription.Font = new Font("Segoe UI", 12F);
+            txtDescription.Location = new Point(151, 62);
             txtDescription.Name = "txtDescription";
             txtDescription.PlaceholderText = " Enter a short description (optional)...";
-            txtDescription.Size = new Size(759, 27);
+            txtDescription.Size = new Size(759, 34);
             txtDescription.TabIndex = 6;
             // 
             // txtName
@@ -156,12 +153,11 @@
             txtName.BackColor = Color.White;
             txtName.BorderStyle = BorderStyle.FixedSingle;
             txtName.Cursor = Cursors.IBeam;
-            txtName.Font = new Font("Segoe UI", 10F);
-            txtName.Location = new Point(151, 13);
-            txtName.Multiline = true;
+            txtName.Font = new Font("Segoe UI", 12F);
+            txtName.Location = new Point(151, 9);
             txtName.Name = "txtName";
             txtName.PlaceholderText = " Enter recipe name...";
-            txtName.Size = new Size(759, 27);
+            txtName.Size = new Size(759, 34);
             txtName.TabIndex = 5;
             // 
             // label6
@@ -182,7 +178,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
             label5.ForeColor = Color.FromArgb(33, 37, 41);
-            label5.Location = new Point(144, 315);
+            label5.Location = new Point(134, 317);
             label5.Name = "label5";
             label5.Padding = new Padding(5, 5, 5, 8);
             label5.Size = new Size(131, 41);
@@ -253,26 +249,24 @@
             // 
             txtIngQuantity.Anchor = AnchorStyles.None;
             txtIngQuantity.BackColor = Color.White;
-            txtIngQuantity.BorderStyle = BorderStyle.None;
+            txtIngQuantity.BorderStyle = BorderStyle.FixedSingle;
             txtIngQuantity.Cursor = Cursors.IBeam;
-            txtIngQuantity.Font = new Font("Segoe UI", 10F);
-            txtIngQuantity.Location = new Point(697, 322);
-            txtIngQuantity.Multiline = true;
+            txtIngQuantity.Font = new Font("Segoe UI", 12F);
+            txtIngQuantity.Location = new Point(701, 322);
             txtIngQuantity.Name = "txtIngQuantity";
-            txtIngQuantity.Size = new Size(74, 27);
+            txtIngQuantity.Size = new Size(74, 34);
             txtIngQuantity.TabIndex = 12;
             // 
             // txtIngUnit
             // 
             txtIngUnit.Anchor = AnchorStyles.None;
             txtIngUnit.BackColor = Color.White;
-            txtIngUnit.BorderStyle = BorderStyle.None;
+            txtIngUnit.BorderStyle = BorderStyle.FixedSingle;
             txtIngUnit.Cursor = Cursors.IBeam;
-            txtIngUnit.Font = new Font("Segoe UI", 10F);
-            txtIngUnit.Location = new Point(777, 322);
-            txtIngUnit.Multiline = true;
+            txtIngUnit.Font = new Font("Segoe UI", 12F);
+            txtIngUnit.Location = new Point(781, 322);
             txtIngUnit.Name = "txtIngUnit";
-            txtIngUnit.Size = new Size(74, 27);
+            txtIngUnit.Size = new Size(74, 34);
             txtIngUnit.TabIndex = 13;
             // 
             // label7
@@ -293,7 +287,7 @@
             label8.BackColor = Color.WhiteSmoke;
             label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label8.ForeColor = Color.FromArgb(80, 80, 80);
-            label8.Location = new Point(701, 299);
+            label8.Location = new Point(703, 299);
             label8.Name = "label8";
             label8.Size = new Size(70, 20);
             label8.TabIndex = 15;
@@ -305,7 +299,7 @@
             label9.BackColor = Color.WhiteSmoke;
             label9.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             label9.ForeColor = Color.FromArgb(80, 80, 80);
-            label9.Location = new Point(795, 299);
+            label9.Location = new Point(799, 299);
             label9.Name = "label9";
             label9.Size = new Size(39, 20);
             label9.TabIndex = 16;
@@ -320,9 +314,9 @@
             BtnAddIng.FlatStyle = FlatStyle.Flat;
             BtnAddIng.Font = new Font("Segoe UI", 9F);
             BtnAddIng.ForeColor = Color.White;
-            BtnAddIng.Location = new Point(857, 322);
+            BtnAddIng.Location = new Point(861, 322);
             BtnAddIng.Name = "BtnAddIng";
-            BtnAddIng.Size = new Size(88, 30);
+            BtnAddIng.Size = new Size(88, 34);
             BtnAddIng.TabIndex = 17;
             BtnAddIng.Text = "Add";
             BtnAddIng.UseVisualStyleBackColor = false;
@@ -337,9 +331,9 @@
             BtnRemoveIng.FlatStyle = FlatStyle.Flat;
             BtnRemoveIng.Font = new Font("Segoe UI", 9F);
             BtnRemoveIng.ForeColor = Color.White;
-            BtnRemoveIng.Location = new Point(951, 321);
+            BtnRemoveIng.Location = new Point(955, 322);
             BtnRemoveIng.Name = "BtnRemoveIng";
-            BtnRemoveIng.Size = new Size(88, 30);
+            BtnRemoveIng.Size = new Size(88, 34);
             BtnRemoveIng.TabIndex = 19;
             BtnRemoveIng.Text = "Remove";
             BtnRemoveIng.UseVisualStyleBackColor = false;
