@@ -10,12 +10,17 @@ namespace Recipe_Book.Forms
     public partial class ShowForm : Form
     {
         private readonly RecipeService _recipeService;
-        private PrintDocument _printDocument;
-        private string _printText = string.Empty;
+        private PrintDocument _printDocument = new PrintDocument();
         private Font _printFont = new Font("Segoe UI", 12);
-        private int _printCharIndex = 0;
         private int _printPageNumber = 1;
         private Font _footerFont = new Font("Segoe UI", 10);
+        private string _printTitle = string.Empty;
+        private string _printDescription = string.Empty;
+        private string _printInstructions = string.Empty;
+        private List<(string Name, string Quantity, string Unit)> _printIngredients = new List<(string, string, string)>();
+        private Font _titleFont = new Font("Segoe UI", 20, FontStyle.Bold);
+        private Font _labelFont = new Font("Segoe UI", 14, FontStyle.Bold);
+        private int _printIngredientIndex = 0;
         private enum ViewMode { None, Recipes, Ingredients, Categories, RecipeIngredients }
         private ViewMode _currentView = ViewMode.None;
 
@@ -23,7 +28,6 @@ namespace Recipe_Book.Forms
         {
             InitializeComponent();
             _recipeService = recipeService;
-            _printDocument = new PrintDocument();
             _printDocument.PrintPage += PrintDocument_PrintPage;
         }
 
@@ -240,39 +244,27 @@ namespace Recipe_Book.Forms
                     return;
                 }
 
-                var sb = new System.Text.StringBuilder();
-                sb.AppendLine(recipe.Name);
-                sb.AppendLine(new string('=', Math.Min(80, recipe.Name.Length + 5)));
-                if (!string.IsNullOrWhiteSpace(recipe.Description))
+                _printTitle = recipe.Name ?? string.Empty;
+                _printDescription = recipe.Description ?? string.Empty;
+                _printInstructions = recipe.Instructions ?? string.Empty;
+                _printIngredients.Clear();
+                if (recipe.RecipeIngredients != null)
                 {
-                    sb.AppendLine("Description:");
-                    sb.AppendLine(recipe.Description);
-                    sb.AppendLine();
-                }
-                if (!string.IsNullOrWhiteSpace(recipe.Instructions))
-                {
-                    sb.AppendLine("Instructions:");
-                    sb.AppendLine(recipe.Instructions);
-                    sb.AppendLine();
-                }
-
-                if (recipe.RecipeIngredients != null && recipe.RecipeIngredients.Any())
-                {
-                    sb.AppendLine("Ingredients:");
                     foreach (var ri in recipe.RecipeIngredients)
                     {
-                        sb.AppendLine($"- {ri.Ingredient.Name}: {ri.Quantity} {ri.Unit}");
+                        var qty = ri.Quantity.ToString();
+                        var unit = ri.Unit ?? string.Empty;
+                        _printIngredients.Add((ri.Ingredient.Name, qty, unit));
                     }
                 }
 
-                _printText = sb.ToString();
+                _printIngredientIndex = 0;
 
                 using var dialog = new PrintDialog();
                 dialog.Document = _printDocument;
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    _printDocument.DocumentName = recipe.Name;
-                    _printCharIndex = 0;
+                    _printDocument.DocumentName = recipe.Name!;
                     _printPageNumber = 1;
                     _printDocument.Print();
                 }
@@ -285,43 +277,104 @@ namespace Recipe_Book.Forms
 
         private void PrintDocument_PrintPage(object? sender, PrintPageEventArgs e)
         {
-            var layoutRect = new RectangleF(e.MarginBounds.X, e.MarginBounds.Y, e.MarginBounds.Width, e.MarginBounds.Height);
+            var g = e.Graphics!;
+            var layout = e.MarginBounds;
+            float x = layout.X;
+            float y = layout.Y;
+            float bottom = layout.Bottom;
 
-            float footerHeight = _footerFont.GetHeight(e.Graphics!) + 8f;
-            var contentRect = new RectangleF(layoutRect.X, layoutRect.Y, layoutRect.Width, Math.Max(0, layoutRect.Height - footerHeight));
-
-            var sf = StringFormat.GenericTypographic;
-            sf.FormatFlags &= ~StringFormatFlags.MeasureTrailingSpaces;
-
-            string remaining = _printText.Substring(Math.Min(_printCharIndex, _printText.Length));
-            int charsFitted = 0;
-            int linesFilled = 0;
-
-            e.Graphics!.MeasureString(remaining, _printFont, new SizeF(contentRect.Width, contentRect.Height), sf, out charsFitted, out linesFilled);
-
-            if (charsFitted <= 0)
+            if (!string.IsNullOrEmpty(_printTitle))
             {
-                e.HasMorePages = false;
-                return;
+                var titleSize = g.MeasureString(_printTitle, _titleFont);
+                float titleX = layout.X + (layout.Width - titleSize.Width) / 2f;
+                g.DrawString(_printTitle, _titleFont, Brushes.Maroon, titleX, y);
+                y += titleSize.Height + 4f;
+
+                using (var pen = new Pen(Color.Maroon, 1.5f))
+                {
+                    g.DrawLine(pen, layout.X, y, layout.Right, y);
+                }
+                y += 8f;
             }
 
-            string pageText = remaining.Substring(0, charsFitted);
+            if (_printPageNumber == 1)
+            {
+                if (!string.IsNullOrWhiteSpace(_printDescription))
+                {
+                    g.DrawString("Description:", _labelFont, Brushes.DarkBlue, x, y);
+                    y += _labelFont.GetHeight(g) + 2f;
 
-            e.Graphics.DrawString(pageText, _printFont, Brushes.Black, contentRect, sf);
+                    var descSize = g.MeasureString(_printDescription, _printFont, (int)layout.Width);
+                    var descRect = new RectangleF(x, y, layout.Width, descSize.Height);
+                    g.DrawString(_printDescription, _printFont, Brushes.Black, descRect);
+                    y += descSize.Height + 6f;
+                }
+
+                if (!string.IsNullOrWhiteSpace(_printInstructions))
+                {
+                    g.DrawString("Instructions:", _labelFont, Brushes.DarkBlue, x, y);
+                    y += _labelFont.GetHeight(g) + 2f;
+
+                    var instrSize = g.MeasureString(_printInstructions, _printFont, (int)layout.Width);
+                    var instrRect = new RectangleF(x, y, layout.Width, instrSize.Height);
+                    g.DrawString(_printInstructions, _printFont, Brushes.Black, instrRect);
+                    y += instrSize.Height + 6f;
+                }
+            }
+
+            if (_printIngredients != null && _printIngredients.Count > 0)
+            {
+                g.DrawString("Ingredients:", _labelFont, Brushes.DarkBlue, x, y);
+                y += _labelFont.GetHeight(g) + 6f;
+
+                float nameColWidth = layout.Width * 0.6f;
+                float otherWidth = layout.Width - nameColWidth - 8f;
+                float qtyColWidth = otherWidth * 0.6f;
+                float unitColWidth = otherWidth - qtyColWidth;
+                float qtyColX = x + nameColWidth + 8f;
+                float unitColX = qtyColX + qtyColWidth;
+
+                g.DrawString("Name", _labelFont, Brushes.DarkGreen, x, y);
+                g.DrawString("Quantity", _labelFont, Brushes.DarkGreen, qtyColX, y);
+                g.DrawString("Unit", _labelFont, Brushes.DarkGreen, unitColX, y);
+                y += _labelFont.GetHeight(g) + 4f;
+
+                for (int i = _printIngredientIndex; i < _printIngredients.Count; i++)
+                {
+                    var row = _printIngredients[i];
+                    var nameSize = g.MeasureString(row.Name, _printFont, (int)nameColWidth);
+                    var qtySize = g.MeasureString(row.Quantity, _printFont, (int)qtyColWidth);
+                    var unitSize = g.MeasureString(row.Unit, _printFont, (int)unitColWidth);
+                    float rowHeight = Math.Max(Math.Max(nameSize.Height, qtySize.Height), unitSize.Height) + 4f;
+
+                    if (y + rowHeight > bottom - _footerFont.GetHeight(g) - 8f)
+                    {
+                        _printIngredientIndex = i;
+                        e.HasMorePages = true;
+                        _printPageNumber++;
+                        return;
+                    }
+
+                    var nameRect = new RectangleF(x, y, nameColWidth, rowHeight);
+                    var qtyRect = new RectangleF(qtyColX, y, qtyColWidth, rowHeight);
+                    var unitRect = new RectangleF(unitColX, y, unitColWidth, rowHeight);
+                    g.DrawString(row.Name, _printFont, Brushes.Black, nameRect);
+                    g.DrawString(row.Quantity, _printFont, Brushes.Black, qtyRect);
+                    g.DrawString(row.Unit, _printFont, Brushes.Black, unitRect);
+                    y += rowHeight;
+                }
+
+                _printIngredientIndex = _printIngredients.Count;
+                y += 6f;
+            }
 
             string footer = $"Page {_printPageNumber}";
-            var footerSize = e.Graphics.MeasureString(footer, _footerFont);
-            float footerX = layoutRect.X + (layoutRect.Width - footerSize.Width) / 2f;
-            float footerY = layoutRect.Y + contentRect.Height + 4f;
-            e.Graphics.DrawString(footer, _footerFont, Brushes.Black, new System.Drawing.PointF(footerX, footerY));
+            var footerSize = g.MeasureString(footer, _footerFont);
+            float footerX = layout.X + (layout.Width - footerSize.Width) / 2f;
+            float footerY = layout.Bottom - footerSize.Height;
+            g.DrawString(footer, _footerFont, Brushes.Black, new PointF(footerX, footerY));
 
-            _printCharIndex += charsFitted;
-            bool more = _printCharIndex < _printText.Length;
-            e.HasMorePages = more;
-            if (more)
-            {
-                _printPageNumber++;
-            }
+            e.HasMorePages = false;
         }
     }
 }
