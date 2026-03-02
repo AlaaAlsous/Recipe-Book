@@ -14,6 +14,11 @@ namespace Recipe_Book.Forms
             _recipeService = recipeService;
         }
 
+        private void TextBoxWithCounter_TextChanged(object? sender, EventArgs e)
+        {
+            Recipe_Book.Services.RecipeFormHelper.TextBoxWithCounter_TextChanged(this, sender, e, errorProvider1);
+        }
+
         private async void BtnAddRecipe_Click(object sender, EventArgs e)
         {
             var name = txtName.Text.Trim();
