@@ -12,7 +12,10 @@ namespace Recipe_Book.Forms
         private readonly RecipeService _recipeService;
         private PrintDocument _printDocument;
         private string _printText = string.Empty;
-        private Font _printFont = new Font("Segoe UI", 10);
+        private Font _printFont = new Font("Segoe UI", 12);
+        private int _printCharIndex = 0;
+        private int _printPageNumber = 1;
+        private Font _footerFont = new Font("Segoe UI", 10);
         private enum ViewMode { None, Recipes, Ingredients, Categories, RecipeIngredients }
         private ViewMode _currentView = ViewMode.None;
 
@@ -269,6 +272,8 @@ namespace Recipe_Book.Forms
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     _printDocument.DocumentName = recipe.Name;
+                    _printCharIndex = 0;
+                    _printPageNumber = 1;
                     _printDocument.Print();
                 }
             }
@@ -280,14 +285,43 @@ namespace Recipe_Book.Forms
 
         private void PrintDocument_PrintPage(object? sender, PrintPageEventArgs e)
         {
-            const int margin = 40;
-            var layoutRect = new RectangleF(margin, margin, e.MarginBounds.Width, e.MarginBounds.Height);
-            var sf = new StringFormat();
-            sf.Alignment = StringAlignment.Near;
-            sf.LineAlignment = StringAlignment.Near;
+            var layoutRect = new RectangleF(e.MarginBounds.X, e.MarginBounds.Y, e.MarginBounds.Width, e.MarginBounds.Height);
 
-            e.Graphics!.DrawString(_printText, _printFont, Brushes.Black, layoutRect, sf);
-            e.HasMorePages = false;
+            float footerHeight = _footerFont.GetHeight(e.Graphics!) + 8f;
+            var contentRect = new RectangleF(layoutRect.X, layoutRect.Y, layoutRect.Width, Math.Max(0, layoutRect.Height - footerHeight));
+
+            var sf = StringFormat.GenericTypographic;
+            sf.FormatFlags &= ~StringFormatFlags.MeasureTrailingSpaces;
+
+            string remaining = _printText.Substring(Math.Min(_printCharIndex, _printText.Length));
+            int charsFitted = 0;
+            int linesFilled = 0;
+
+            e.Graphics!.MeasureString(remaining, _printFont, new SizeF(contentRect.Width, contentRect.Height), sf, out charsFitted, out linesFilled);
+
+            if (charsFitted <= 0)
+            {
+                e.HasMorePages = false;
+                return;
+            }
+
+            string pageText = remaining.Substring(0, charsFitted);
+
+            e.Graphics.DrawString(pageText, _printFont, Brushes.Black, contentRect, sf);
+
+            string footer = $"Page {_printPageNumber}";
+            var footerSize = e.Graphics.MeasureString(footer, _footerFont);
+            float footerX = layoutRect.X + (layoutRect.Width - footerSize.Width) / 2f;
+            float footerY = layoutRect.Y + contentRect.Height + 4f;
+            e.Graphics.DrawString(footer, _footerFont, Brushes.Black, new System.Drawing.PointF(footerX, footerY));
+
+            _printCharIndex += charsFitted;
+            bool more = _printCharIndex < _printText.Length;
+            e.HasMorePages = more;
+            if (more)
+            {
+                _printPageNumber++;
+            }
         }
     }
 }
