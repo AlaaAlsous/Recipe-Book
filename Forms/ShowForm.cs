@@ -285,9 +285,10 @@ namespace Recipe_Book.Forms
 
             if (!string.IsNullOrEmpty(_printTitle))
             {
-                var titleSize = g.MeasureString(_printTitle, _titleFont);
-                float titleX = layout.X + (layout.Width - titleSize.Width) / 2f;
-                g.DrawString(_printTitle, _titleFont, Brushes.Maroon, titleX, y);
+                var sfCenter = new StringFormat { Alignment = StringAlignment.Center };
+                var titleSize = g.MeasureString(_printTitle, _titleFont, (int)layout.Width);
+                var titleRect = new RectangleF(layout.X, y, layout.Width, titleSize.Height);
+                g.DrawString(_printTitle, _titleFont, Brushes.Maroon, titleRect, sfCenter);
                 y += titleSize.Height + 4f;
 
                 using (var pen = new Pen(Color.Maroon, 1.5f))
