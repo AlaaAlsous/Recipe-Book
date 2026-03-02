@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
@@ -57,8 +58,17 @@
             IngredientName = new DataGridViewTextBoxColumn();
             Quantity = new DataGridViewTextBoxColumn();
             Unit = new DataGridViewTextBoxColumn();
+            lblNameCount = new Label();
+            lblDescriptionCount = new Label();
+            lblInstructionsCount = new Label();
+            lblCategoriesCount = new Label();
+            lblIngNameCount = new Label();
+            lblIngQuantityCount = new Label();
+            lblIngUnitCount = new Label();
+            errorProvider1 = new ErrorProvider(components);
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -68,11 +78,11 @@
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Tahoma", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.FromArgb(33, 37, 41);
-            label1.Location = new Point(477, 9);
+            label1.Location = new Point(482, 9);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
             label1.Padding = new Padding(5);
-            label1.Size = new Size(208, 51);
+            label1.Size = new Size(218, 51);
             label1.TabIndex = 3;
             label1.Text = "Edit Recipe";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -97,16 +107,18 @@
             // 
             // txtCategories
             // 
-            txtCategories.Anchor = AnchorStyles.None;
+            txtCategories.Anchor = AnchorStyles.Left;
             txtCategories.BackColor = Color.White;
             txtCategories.BorderStyle = BorderStyle.FixedSingle;
             txtCategories.Cursor = Cursors.IBeam;
             txtCategories.Font = new Font("Segoe UI", 12F);
-            txtCategories.Location = new Point(151, 169);
+            txtCategories.Location = new Point(152, 169);
+            txtCategories.MaxLength = 500;
             txtCategories.Name = "txtCategories";
             txtCategories.PlaceholderText = " Enter categories separated by commas (e.g., Dessert, Main Course)...";
             txtCategories.Size = new Size(759, 34);
             txtCategories.TabIndex = 9;
+            txtCategories.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // txtIngName
             // 
@@ -116,49 +128,57 @@
             txtIngName.Cursor = Cursors.IBeam;
             txtIngName.Font = new Font("Segoe UI", 12F);
             txtIngName.Location = new Point(285, 322);
+            txtIngName.MaxLength = 200;
             txtIngName.Name = "txtIngName";
             txtIngName.PlaceholderText = " Enter ingredient name...";
             txtIngName.Size = new Size(410, 34);
             txtIngName.TabIndex = 8;
+            txtIngName.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // txtInstructions
             // 
-            txtInstructions.Anchor = AnchorStyles.None;
+            txtInstructions.Anchor = AnchorStyles.Left;
             txtInstructions.BackColor = Color.White;
             txtInstructions.BorderStyle = BorderStyle.FixedSingle;
             txtInstructions.Cursor = Cursors.IBeam;
             txtInstructions.Font = new Font("Segoe UI", 12F);
-            txtInstructions.Location = new Point(151, 115);
+            txtInstructions.Location = new Point(152, 115);
+            txtInstructions.MaxLength = 2000;
             txtInstructions.Name = "txtInstructions";
             txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
             txtInstructions.Size = new Size(759, 34);
             txtInstructions.TabIndex = 7;
+            txtInstructions.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // txtDescription
             // 
-            txtDescription.Anchor = AnchorStyles.None;
+            txtDescription.Anchor = AnchorStyles.Left;
             txtDescription.BackColor = Color.White;
             txtDescription.BorderStyle = BorderStyle.FixedSingle;
             txtDescription.Cursor = Cursors.IBeam;
             txtDescription.Font = new Font("Segoe UI", 12F);
-            txtDescription.Location = new Point(151, 62);
+            txtDescription.Location = new Point(152, 62);
+            txtDescription.MaxLength = 1000;
             txtDescription.Name = "txtDescription";
             txtDescription.PlaceholderText = " Enter a short description (optional)...";
             txtDescription.Size = new Size(759, 34);
             txtDescription.TabIndex = 6;
+            txtDescription.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // txtName
             // 
-            txtName.Anchor = AnchorStyles.None;
+            txtName.Anchor = AnchorStyles.Left;
             txtName.BackColor = Color.White;
             txtName.BorderStyle = BorderStyle.FixedSingle;
             txtName.Cursor = Cursors.IBeam;
             txtName.Font = new Font("Segoe UI", 12F);
-            txtName.Location = new Point(151, 9);
+            txtName.Location = new Point(152, 9);
+            txtName.MaxLength = 200;
             txtName.Name = "txtName";
             txtName.PlaceholderText = " Enter recipe name...";
             txtName.Size = new Size(759, 34);
             txtName.TabIndex = 5;
+            txtName.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // label6
             // 
@@ -234,7 +254,7 @@
             tableLayoutPanel1.Controls.Add(txtInstructions, 1, 2);
             tableLayoutPanel1.Controls.Add(txtCategories, 1, 3);
             tableLayoutPanel1.Controls.Add(label6, 0, 3);
-            tableLayoutPanel1.Location = new Point(134, 73);
+            tableLayoutPanel1.Location = new Point(91, 63);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 4;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
@@ -242,7 +262,7 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 16.666666F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel1.Size = new Size(915, 213);
+            tableLayoutPanel1.Size = new Size(940, 213);
             tableLayoutPanel1.TabIndex = 2;
             // 
             // txtIngQuantity
@@ -253,9 +273,11 @@
             txtIngQuantity.Cursor = Cursors.IBeam;
             txtIngQuantity.Font = new Font("Segoe UI", 12F);
             txtIngQuantity.Location = new Point(701, 322);
+            txtIngQuantity.MaxLength = 20;
             txtIngQuantity.Name = "txtIngQuantity";
             txtIngQuantity.Size = new Size(74, 34);
             txtIngQuantity.TabIndex = 12;
+            txtIngQuantity.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // txtIngUnit
             // 
@@ -265,9 +287,11 @@
             txtIngUnit.Cursor = Cursors.IBeam;
             txtIngUnit.Font = new Font("Segoe UI", 12F);
             txtIngUnit.Location = new Point(781, 322);
+            txtIngUnit.MaxLength = 50;
             txtIngUnit.Name = "txtIngUnit";
             txtIngUnit.Size = new Size(74, 34);
             txtIngUnit.TabIndex = 13;
+            txtIngUnit.TextChanged += TextBoxWithCounter_TextChanged;
             // 
             // label7
             // 
@@ -404,6 +428,87 @@
             Unit.ReadOnly = true;
             Unit.SortMode = DataGridViewColumnSortMode.NotSortable;
             // 
+            // lblNameCount
+            // 
+            lblNameCount.AutoSize = true;
+            lblNameCount.Font = new Font("Segoe UI", 9F);
+            lblNameCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblNameCount.Location = new Point(1037, 82);
+            lblNameCount.Name = "lblNameCount";
+            lblNameCount.Size = new Size(47, 20);
+            lblNameCount.TabIndex = 20;
+            lblNameCount.Text = "0/200";
+            // 
+            // lblDescriptionCount
+            // 
+            lblDescriptionCount.AutoSize = true;
+            lblDescriptionCount.Font = new Font("Segoe UI", 9F);
+            lblDescriptionCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblDescriptionCount.Location = new Point(1037, 134);
+            lblDescriptionCount.Name = "lblDescriptionCount";
+            lblDescriptionCount.Size = new Size(55, 20);
+            lblDescriptionCount.TabIndex = 21;
+            lblDescriptionCount.Text = "0/1000";
+            // 
+            // lblInstructionsCount
+            // 
+            lblInstructionsCount.AutoSize = true;
+            lblInstructionsCount.Font = new Font("Segoe UI", 9F);
+            lblInstructionsCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblInstructionsCount.Location = new Point(1037, 187);
+            lblInstructionsCount.Name = "lblInstructionsCount";
+            lblInstructionsCount.Size = new Size(55, 20);
+            lblInstructionsCount.TabIndex = 22;
+            lblInstructionsCount.Text = "0/2000";
+            // 
+            // lblCategoriesCount
+            // 
+            lblCategoriesCount.AutoSize = true;
+            lblCategoriesCount.Font = new Font("Segoe UI", 9F);
+            lblCategoriesCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblCategoriesCount.Location = new Point(1037, 241);
+            lblCategoriesCount.Name = "lblCategoriesCount";
+            lblCategoriesCount.Size = new Size(47, 20);
+            lblCategoriesCount.TabIndex = 23;
+            lblCategoriesCount.Text = "0/500";
+            // 
+            // lblIngNameCount
+            // 
+            lblIngNameCount.AutoSize = true;
+            lblIngNameCount.Font = new Font("Segoe UI", 9F);
+            lblIngNameCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblIngNameCount.Location = new Point(285, 356);
+            lblIngNameCount.Name = "lblIngNameCount";
+            lblIngNameCount.Size = new Size(47, 20);
+            lblIngNameCount.TabIndex = 24;
+            lblIngNameCount.Text = "0/200";
+            // 
+            // lblIngQuantityCount
+            // 
+            lblIngQuantityCount.AutoSize = true;
+            lblIngQuantityCount.Font = new Font("Segoe UI", 9F);
+            lblIngQuantityCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblIngQuantityCount.Location = new Point(701, 356);
+            lblIngQuantityCount.Name = "lblIngQuantityCount";
+            lblIngQuantityCount.Size = new Size(39, 20);
+            lblIngQuantityCount.TabIndex = 25;
+            lblIngQuantityCount.Text = "0/20";
+            // 
+            // lblIngUnitCount
+            // 
+            lblIngUnitCount.AutoSize = true;
+            lblIngUnitCount.Font = new Font("Segoe UI", 9F);
+            lblIngUnitCount.ForeColor = Color.FromArgb(80, 80, 80);
+            lblIngUnitCount.Location = new Point(781, 356);
+            lblIngUnitCount.Name = "lblIngUnitCount";
+            lblIngUnitCount.Size = new Size(39, 20);
+            lblIngUnitCount.TabIndex = 26;
+            lblIngUnitCount.Text = "0/50";
+            // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
             // EditRecipeForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -424,6 +529,13 @@
             Controls.Add(tableLayoutPanel1);
             Controls.Add(label5);
             Controls.Add(txtIngName);
+            Controls.Add(lblNameCount);
+            Controls.Add(lblDescriptionCount);
+            Controls.Add(lblInstructionsCount);
+            Controls.Add(lblCategoriesCount);
+            Controls.Add(lblIngNameCount);
+            Controls.Add(lblIngQuantityCount);
+            Controls.Add(lblIngUnitCount);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
@@ -433,6 +545,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -462,5 +575,13 @@
         private DataGridViewTextBoxColumn IngredientName;
         private DataGridViewTextBoxColumn Quantity;
         private DataGridViewTextBoxColumn Unit;
+        private Label lblNameCount;
+        private Label lblDescriptionCount;
+        private Label lblInstructionsCount;
+        private Label lblCategoriesCount;
+        private Label lblIngNameCount;
+        private Label lblIngQuantityCount;
+        private Label lblIngUnitCount;
+        private ErrorProvider errorProvider1;
     }
 }

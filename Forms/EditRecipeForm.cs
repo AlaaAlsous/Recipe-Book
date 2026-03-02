@@ -45,6 +45,10 @@ namespace Recipe_Book.Forms
                 }
 
                 UpdateIngredientGrid();
+                TextBoxWithCounter_TextChanged(txtName, EventArgs.Empty);
+                TextBoxWithCounter_TextChanged(txtDescription, EventArgs.Empty);
+                TextBoxWithCounter_TextChanged(txtInstructions, EventArgs.Empty);
+                TextBoxWithCounter_TextChanged(txtCategories, EventArgs.Empty);
             }
             catch (Exception ex)
             {
@@ -92,6 +96,11 @@ namespace Recipe_Book.Forms
         private void BtnAddIng_Click(object? sender, EventArgs e)
         {
             RecipeFormHelper.AddIngredient(_ingredients, txtIngName, txtIngQuantity, txtIngUnit, dataGridView1);
+        }
+
+        private void TextBoxWithCounter_TextChanged(object? sender, EventArgs e)
+        {
+            Recipe_Book.Services.RecipeFormHelper.TextBoxWithCounter_TextChanged(this, sender, e, errorProvider1);
         }
 
         private void UpdateIngredientGrid()
