@@ -12,17 +12,17 @@
 
 ## Beskrivning
 
-**Recipe Book** är en modern WinForms-applikation byggd med .NET 10 och C# för att hantera recept, ingredienser och kategorier via ett grafiskt användargränssnitt. 
+
+**Recipe Book** är en modern WinForms-applikation byggd med .NET 10 och C# för att hantera recept, ingredienser och kategorier via ett grafiskt användargränssnitt. Du kan även skriva ut recept direkt från applikationen.
 
 Data lagras i en Microsoft SQL Server-databas och all databasinteraktion sker med Entity Framework Core för robust och asynkron hantering.
 
-
-Applikationen är strukturerad i modulära klasser (Recipe, Ingredient, Category, RecipeIngredient, RecipeCategory) som kapslar in respektive domänfunktion. Tjänstelagret (RecipeService) hanterar CRUD-operationer och affärslogik, medan olika formulär (MainForm, CreateRecipeForm, EditRecipeForm, ShowForm) sköter UI och användarflöden.
-
+Applikationen är strukturerad i modulära klasser (Recipe, Ingredient, Category, RecipeIngredient, RecipeCategory) som kapslar in respektive domänfunktion. Tjänstelagret (RecipeService) hanterar CRUD-operationer och affärslogik, medan olika formulär (MainForm, CreateRecipeForm, EditRecipeForm, ShowForm) sköter UI och användarflöden. Utskriftsfunktionen finns i receptvyn.
 
 Databasen skapas automatiskt vid start med tabeller, unika index och relationshantering (many-to-many) via kopplingstabeller. On-delete-beteenden och constraints säkerställer dataintegritet, och all dataoperation sker asynkront för bästa prestanda och användarupplevelse.
 
 ---
+
 
 ## Funktioner
 
@@ -32,6 +32,7 @@ Databasen skapas automatiskt vid start med tabeller, unika index och relationsha
 - Ta bort recept: radera ett recept; kopplingar i `RecipeIngredients` och `RecipeCategories` tas bort automatiskt.
 - Hantera ingredienser: skapa och uppdatera ingredienser med unika namn och standardenheter för återanvändning.
 - Hantera kategorier: skapa och återanvänd kategorier med unika namn för enkel organisering.
+- **Skriv ut recept:** Du kan skriva ut recept direkt från applikationen via utskriftsfunktionen i receptvyn.
 - Många-till-många-relationer: stöd för flera ingredienser och kategorier per recept via kopplingstabeller.
 - Asynkrona databasanrop: använder `SaveChangesAsync()` för bättre respons i gränssnittet.
 - Automatisk databasuppsättning: databas och tabeller skapas vid första körning med `EnsureCreated()` eller via migrationer.
@@ -122,11 +123,13 @@ dotnet run --project RecipeBook.csproj
 
 ## Användning
 
+
 Vid start öppnas huvudfönstret där du kan:
 
 - Skapa nya recept med ingredienser och kategorier
 - Söka, visa, redigera och ta bort recept
 - Hantera ingredienser och kategorier
+- Skriva ut recept
 
 ---
 
@@ -188,6 +191,7 @@ Databasen är designad för att hantera recept, ingredienser och kategorier med 
 ---
 
 ## Teknisk miljö
+
 
 - Target Framework: `net10.0`
 - Paket:
