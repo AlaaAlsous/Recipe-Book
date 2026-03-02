@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Reflection;
+using System.Windows.Forms;
 using Recipe_Book.Data;
 using Recipe_Book.Models;
 
@@ -159,6 +161,33 @@ namespace Recipe_Book.Services
                 MessageBox.Show(owner, $"Could not update recipe: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
+        }
+
+        public static void TextBoxWithCounter_TextChanged(Form form, object? sender, EventArgs e, ErrorProvider errorProvider)
+        {
+            if (sender is not TextBox tb)
+                return;
+
+            var name = tb.Name;
+            if (string.IsNullOrEmpty(name) || !name.StartsWith("txt"))
+                return;
+
+            var core = name.Substring(3);
+            var lblName = $"lbl{core}Count";
+
+            var fi = form.GetType().GetField(lblName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            var lbl = fi?.GetValue(form) as Label;
+
+            int len = tb.Text.Length;
+            int max = tb.MaxLength;
+
+            if (lbl != null)
+                lbl.Text = max > 0 ? $"{len}/{max}" : len.ToString();
+
+            if (max > 0 && len >= max)
+                errorProvider.SetError(tb, $"Maximum length reached ({max} characters).\n");
+            else
+                errorProvider.SetError(tb, "");
         }
     }
 }
