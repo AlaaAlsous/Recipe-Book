@@ -113,7 +113,7 @@
             txtCategories.Cursor = Cursors.IBeam;
             txtCategories.Font = new Font("Segoe UI", 12F);
             txtCategories.Location = new Point(152, 169);
-            txtCategories.MaxLength = 500;
+            txtCategories.MaxLength = 250;
             txtCategories.Name = "txtCategories";
             txtCategories.PlaceholderText = " Enter categories separated by commas (e.g., Dessert, Main Course)...";
             txtCategories.Size = new Size(759, 34);
@@ -143,7 +143,7 @@
             txtInstructions.Cursor = Cursors.IBeam;
             txtInstructions.Font = new Font("Segoe UI", 12F);
             txtInstructions.Location = new Point(152, 115);
-            txtInstructions.MaxLength = 2000;
+            txtInstructions.MaxLength = 2500;
             txtInstructions.Name = "txtInstructions";
             txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
             txtInstructions.Size = new Size(759, 34);
@@ -158,7 +158,7 @@
             txtDescription.Cursor = Cursors.IBeam;
             txtDescription.Font = new Font("Segoe UI", 12F);
             txtDescription.Location = new Point(152, 62);
-            txtDescription.MaxLength = 1000;
+            txtDescription.MaxLength = 750;
             txtDescription.Name = "txtDescription";
             txtDescription.PlaceholderText = " Enter a short description (optional)...";
             txtDescription.Size = new Size(759, 34);
@@ -173,7 +173,7 @@
             txtName.Cursor = Cursors.IBeam;
             txtName.Font = new Font("Segoe UI", 12F);
             txtName.Location = new Point(152, 9);
-            txtName.MaxLength = 200;
+            txtName.MaxLength = 100;
             txtName.Name = "txtName";
             txtName.PlaceholderText = " Enter recipe name...";
             txtName.Size = new Size(759, 34);
@@ -435,9 +435,8 @@
             lblNameCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblNameCount.Location = new Point(1037, 82);
             lblNameCount.Name = "lblNameCount";
-            lblNameCount.Size = new Size(47, 20);
+            lblNameCount.Size = new Size(0, 20);
             lblNameCount.TabIndex = 20;
-            lblNameCount.Text = "0/200";
             // 
             // lblDescriptionCount
             // 
@@ -446,9 +445,8 @@
             lblDescriptionCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblDescriptionCount.Location = new Point(1037, 134);
             lblDescriptionCount.Name = "lblDescriptionCount";
-            lblDescriptionCount.Size = new Size(55, 20);
+            lblDescriptionCount.Size = new Size(0, 20);
             lblDescriptionCount.TabIndex = 21;
-            lblDescriptionCount.Text = "0/1000";
             // 
             // lblInstructionsCount
             // 
@@ -457,9 +455,8 @@
             lblInstructionsCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblInstructionsCount.Location = new Point(1037, 187);
             lblInstructionsCount.Name = "lblInstructionsCount";
-            lblInstructionsCount.Size = new Size(55, 20);
+            lblInstructionsCount.Size = new Size(0, 20);
             lblInstructionsCount.TabIndex = 22;
-            lblInstructionsCount.Text = "0/2000";
             // 
             // lblCategoriesCount
             // 
@@ -468,9 +465,8 @@
             lblCategoriesCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblCategoriesCount.Location = new Point(1037, 241);
             lblCategoriesCount.Name = "lblCategoriesCount";
-            lblCategoriesCount.Size = new Size(47, 20);
+            lblCategoriesCount.Size = new Size(0, 20);
             lblCategoriesCount.TabIndex = 23;
-            lblCategoriesCount.Text = "0/500";
             // 
             // lblIngNameCount
             // 
@@ -479,9 +475,8 @@
             lblIngNameCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblIngNameCount.Location = new Point(285, 356);
             lblIngNameCount.Name = "lblIngNameCount";
-            lblIngNameCount.Size = new Size(47, 20);
+            lblIngNameCount.Size = new Size(0, 20);
             lblIngNameCount.TabIndex = 24;
-            lblIngNameCount.Text = "0/200";
             // 
             // lblIngQuantityCount
             // 
@@ -490,9 +485,8 @@
             lblIngQuantityCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblIngQuantityCount.Location = new Point(701, 356);
             lblIngQuantityCount.Name = "lblIngQuantityCount";
-            lblIngQuantityCount.Size = new Size(39, 20);
+            lblIngQuantityCount.Size = new Size(0, 20);
             lblIngQuantityCount.TabIndex = 25;
-            lblIngQuantityCount.Text = "0/20";
             // 
             // lblIngUnitCount
             // 
@@ -501,9 +495,8 @@
             lblIngUnitCount.ForeColor = Color.FromArgb(80, 80, 80);
             lblIngUnitCount.Location = new Point(781, 356);
             lblIngUnitCount.Name = "lblIngUnitCount";
-            lblIngUnitCount.Size = new Size(39, 20);
+            lblIngUnitCount.Size = new Size(0, 20);
             lblIngUnitCount.TabIndex = 26;
-            lblIngUnitCount.Text = "0/50";
             // 
             // errorProvider1
             // 
