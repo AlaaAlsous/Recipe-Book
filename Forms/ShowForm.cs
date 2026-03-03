@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Recipe_Book.Services;
 using System.Drawing.Printing;
+using System.Text.RegularExpressions;
 
 namespace Recipe_Book.Forms
 {
@@ -36,6 +37,8 @@ namespace Recipe_Book.Forms
             try
             {
                 _currentView = ViewMode.Recipes;
+                pnlDetails.Visible = false;
+                dataGridView1.Visible = true;
                 buttonDelete.Visible = false;
                 button4.Visible = true;
                 buttonPrint.Visible = true;
@@ -66,6 +69,8 @@ namespace Recipe_Book.Forms
             try
             {
                 _currentView = ViewMode.Ingredients;
+                pnlDetails.Visible = false;
+                dataGridView1.Visible = true;
                 buttonDelete.Visible = true;
                 button4.Visible = false;
                 buttonPrint.Visible = false;
@@ -94,6 +99,8 @@ namespace Recipe_Book.Forms
             try
             {
                 _currentView = ViewMode.Categories;
+                pnlDetails.Visible = false;
+                dataGridView1.Visible = true;
                 buttonDelete.Visible = true;
                 button4.Visible = false;
                 buttonPrint.Visible = false;
@@ -142,17 +149,22 @@ namespace Recipe_Book.Forms
                     return;
                 }
 
-                dataGridView1.Columns.Clear();
-                dataGridView1.Rows.Clear();
-                dataGridView1.Columns.Add("RecipeName", "Recipe Name");
-                dataGridView1.Columns.Add("IngredientName", "Ingredient Name");
-                dataGridView1.Columns.Add("Quantity", "Quantity");
-                dataGridView1.Columns.Add("Unit", "Unit");
+                lblDetailTitle.Text = recipe.Name ?? string.Empty;
+                lblDetailDescription.Text = recipe.Description ?? string.Empty;
+                rtbDetailInstructions.Text = Recipe_Book.Services.RecipeFormHelper.FormatInstructions(recipe.Instructions ?? string.Empty);
 
-                foreach (var ri in recipe.RecipeIngredients)
+                dgvDetailIngredients.Rows.Clear();
+                if (recipe.RecipeIngredients != null)
                 {
-                    dataGridView1.Rows.Add(recipe.Name, ri.Ingredient.Name, ri.Quantity, ri.Unit);
+                    foreach (var ri in recipe.RecipeIngredients)
+                    {
+                        var qty = ri.Quantity.ToString();
+                        var unit = ri.Unit ?? string.Empty;
+                        dgvDetailIngredients.Rows.Add(ri.Ingredient.Name, qty, unit);
+                    }
                 }
+                dataGridView1.Visible = false;
+                pnlDetails.Visible = true;
             }
             catch (Exception ex)
             {
@@ -246,7 +258,7 @@ namespace Recipe_Book.Forms
 
                 _printTitle = recipe.Name ?? string.Empty;
                 _printDescription = recipe.Description ?? string.Empty;
-                _printInstructions = recipe.Instructions ?? string.Empty;
+                _printInstructions = Recipe_Book.Services.RecipeFormHelper.FormatInstructions(recipe.Instructions ?? string.Empty);
                 _printIngredients.Clear();
                 if (recipe.RecipeIngredients != null)
                 {

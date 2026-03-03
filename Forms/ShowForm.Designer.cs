@@ -40,7 +40,17 @@
             button4 = new Button();
             buttonPrint = new Button();
             buttonDelete = new Button();
+            pnlDetails = new Panel();
+            lblDetailTitle = new Label();
+            lblDetailDescription = new Label();
+            rtbDetailInstructions = new RichTextBox();
+            dgvDetailIngredients = new DataGridView();
+            dataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn2 = new DataGridViewTextBoxColumn();
+            dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            pnlDetails.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvDetailIngredients).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -203,6 +213,85 @@
             buttonDelete.Visible = false;
             buttonDelete.Click += BtnDelete_Click;
             // 
+            // pnlDetails
+            // 
+            pnlDetails.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pnlDetails.BackColor = Color.WhiteSmoke;
+            pnlDetails.BorderStyle = BorderStyle.FixedSingle;
+            pnlDetails.Controls.Add(lblDetailTitle);
+            pnlDetails.Controls.Add(lblDetailDescription);
+            pnlDetails.Controls.Add(rtbDetailInstructions);
+            pnlDetails.Controls.Add(dgvDetailIngredients);
+            pnlDetails.Location = new Point(39, 210);
+            pnlDetails.Name = "pnlDetails";
+            pnlDetails.Size = new Size(1105, 416);
+            pnlDetails.TabIndex = 8;
+            pnlDetails.Visible = false;
+            // 
+            // lblDetailTitle
+            // 
+            lblDetailTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblDetailTitle.Location = new Point(12, 12);
+            lblDetailTitle.Name = "lblDetailTitle";
+            lblDetailTitle.Size = new Size(1080, 36);
+            lblDetailTitle.TabIndex = 0;
+            lblDetailTitle.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // lblDetailDescription
+            // 
+            lblDetailDescription.Font = new Font("Segoe UI", 10F);
+            lblDetailDescription.Location = new Point(12, 56);
+            lblDetailDescription.Name = "lblDetailDescription";
+            lblDetailDescription.Size = new Size(1080, 40);
+            lblDetailDescription.TabIndex = 1;
+            // 
+            // rtbDetailInstructions
+            // 
+            rtbDetailInstructions.Location = new Point(12, 102);
+            rtbDetailInstructions.Name = "rtbDetailInstructions";
+            rtbDetailInstructions.ReadOnly = true;
+            rtbDetailInstructions.Size = new Size(720, 264);
+            rtbDetailInstructions.TabIndex = 2;
+            rtbDetailInstructions.Text = "";
+            // 
+            // dgvDetailIngredients
+            // 
+            dgvDetailIngredients.AllowUserToAddRows = false;
+            dgvDetailIngredients.AllowUserToDeleteRows = false;
+            dgvDetailIngredients.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvDetailIngredients.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDetailIngredients.Columns.AddRange(new DataGridViewColumn[] { dataGridViewTextBoxColumn1, dataGridViewTextBoxColumn2, dataGridViewTextBoxColumn3 });
+            dgvDetailIngredients.Location = new Point(744, 102);
+            dgvDetailIngredients.Name = "dgvDetailIngredients";
+            dgvDetailIngredients.ReadOnly = true;
+            dgvDetailIngredients.RowHeadersVisible = false;
+            dgvDetailIngredients.RowHeadersWidth = 51;
+            dgvDetailIngredients.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDetailIngredients.Size = new Size(348, 264);
+            dgvDetailIngredients.TabIndex = 3;
+            // 
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            dataGridViewTextBoxColumn1.HeaderText = "Name";
+            dataGridViewTextBoxColumn1.MinimumWidth = 6;
+            dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            dataGridViewTextBoxColumn1.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            dataGridViewTextBoxColumn2.HeaderText = "Quantity";
+            dataGridViewTextBoxColumn2.MinimumWidth = 6;
+            dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            dataGridViewTextBoxColumn2.ReadOnly = true;
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            dataGridViewTextBoxColumn3.HeaderText = "Unit";
+            dataGridViewTextBoxColumn3.MinimumWidth = 6;
+            dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            dataGridViewTextBoxColumn3.ReadOnly = true;
+            // 
             // ShowForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -210,6 +299,7 @@
             BackColor = Color.WhiteSmoke;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             ClientSize = new Size(1182, 653);
+            Controls.Add(pnlDetails);
             Controls.Add(button4);
             Controls.Add(buttonPrint);
             Controls.Add(buttonDelete);
@@ -226,6 +316,8 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Show";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            pnlDetails.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvDetailIngredients).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -240,5 +332,13 @@
     	private Button button4;
         private Button buttonPrint;
     	private Button buttonDelete;
+        private Panel pnlDetails;
+        private Label lblDetailTitle;
+        private Label lblDetailDescription;
+        private RichTextBox rtbDetailInstructions;
+        private DataGridView dgvDetailIngredients;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
     }
 }
