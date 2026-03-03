@@ -145,7 +145,7 @@
             txtInstructions.Location = new Point(152, 115);
             txtInstructions.MaxLength = 2500;
             txtInstructions.Name = "txtInstructions";
-            txtInstructions.PlaceholderText = " Enter cooking instructions (optional)...";
+            txtInstructions.PlaceholderText = "Enter instructions, start steps with ' -'  (optional)...";
             txtInstructions.Size = new Size(759, 34);
             txtInstructions.TabIndex = 7;
             txtInstructions.TextChanged += TextBoxWithCounter_TextChanged;
