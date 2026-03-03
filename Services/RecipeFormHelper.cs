@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Recipe_Book.Data;
 using Recipe_Book.Models;
+using System.Text.RegularExpressions;
 
 namespace Recipe_Book.Services
 {
@@ -188,6 +189,36 @@ namespace Recipe_Book.Services
                 errorProvider.SetError(tb, $"Maximum length reached ({max} characters).\n");
             else
                 errorProvider.SetError(tb, "");
+        }
+
+        public static string FormatInstructions(string? instructions)
+        {
+            if (string.IsNullOrWhiteSpace(instructions))
+                return string.Empty;
+
+            instructions = instructions.Replace("\r\n", " ").Trim();
+
+            var parts = new List<string>();
+            int start = 0;
+
+            for (int i = 0; i < instructions.Length; i++)
+            {
+                if (instructions[i] == '-' &&
+                    (i == 0 || char.IsWhiteSpace(instructions[i - 1])))
+                {
+                    var part = instructions[start..i].Trim();
+                    if (!string.IsNullOrEmpty(part))
+                        parts.Add(part);
+
+                    start = i + 1;
+                }
+            }
+
+            var lastPart = instructions[start..].Trim();
+            if (!string.IsNullOrEmpty(lastPart))
+                parts.Add(lastPart);
+
+            return string.Join(Environment.NewLine, parts.Select(p => "• " + p));
         }
     }
 }
