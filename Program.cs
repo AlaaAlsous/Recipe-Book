@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Data.SqlClient;
 using Recipe_Book.Data;
 using Recipe_Book.Services;
 
@@ -14,21 +13,30 @@ namespace Recipe_Book
             ApplicationConfiguration.Initialize();
 
             var services = new ServiceCollection();
+            var sqlServerConnectionString =
+                Environment.GetEnvironmentVariable("RECIPE_BOOK_SQLSERVER");
 
-            string connectionString =
-                "Server=localhost,1433;Database=recipe_book_db;User Id=recipebook;Password=Secret-Recipe-Book-Password!;TrustServerCertificate=True;Encrypt=True;";
-
-            bool dockerAvailable = CanConnectToDockerDb(connectionString);
-
-            if (dockerAvailable)
+            if (!string.IsNullOrWhiteSpace(sqlServerConnectionString))
             {
+                Console.WriteLine("Database provider: SQL Server (RECIPE_BOOK_SQLSERVER is set).");
                 services.AddDbContext<RecipeDbContext>(options =>
-                    options.UseSqlServer(connectionString));
+                    options.UseSqlServer(sqlServerConnectionString));
             }
             else
             {
+                Console.WriteLine("Database provider: SQLite (RECIPE_BOOK_SQLSERVER is not set).");
+                string dataDirectory = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    "Recipe Book");
+                Directory.CreateDirectory(dataDirectory);
+
+                string sqliteConnectionString = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
+                {
+                    DataSource = Path.Combine(dataDirectory, "Recipe-Book.sqlite")
+                }.ToString();
+
                 services.AddDbContext<RecipeDbContext>(options =>
-                    options.UseSqlite("Data Source=Recipe-Book.sqlite"));
+                    options.UseSqlite(sqliteConnectionString));
             }
 
             services.AddScoped<RecipeService>();
@@ -51,20 +59,6 @@ namespace Recipe_Book
             }
 
             Application.Run(serviceProvider.GetRequiredService<MainForm>());
-        }
-
-        private static bool CanConnectToDockerDb(string connectionString)
-        {
-            try
-            {
-                using var conn = new SqlConnection(connectionString);
-                conn.Open();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
         }
     }
 }
