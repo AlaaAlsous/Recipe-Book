@@ -25,14 +25,9 @@ namespace Recipe_Book
             else
             {
                 Console.WriteLine("Database provider: SQLite (RECIPE_BOOK_SQLSERVER is not set).");
-                string dataDirectory = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "Recipe Book");
-                Directory.CreateDirectory(dataDirectory);
-
                 string sqliteConnectionString = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder
                 {
-                    DataSource = Path.Combine(dataDirectory, "Recipe-Book.sqlite")
+                    DataSource = Path.Combine(AppContext.BaseDirectory, "Recipe-Book.sqlite")
                 }.ToString();
 
                 services.AddDbContext<RecipeDbContext>(options =>

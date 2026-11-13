@@ -99,11 +99,24 @@ Kör sedan appen:
 ```powershell
 dotnet run --project ".\Recipe Book.csproj"
 ```
-Appen använder SQLite som standard. Databasen skapas automatiskt här:
+Appen använder SQLite som standard. Databasen skapas automatiskt bredvid appens `.exe`-fil:
 
 ```text
-%LOCALAPPDATA%\Recipe Book\Recipe-Book.sqlite
+Recipe-Book.sqlite
 ```
+
+### Säkerhetskopiera SQLite-databasen
+
+Recepten sparas i `Recipe-Book.sqlite` i samma mapp som appens `.exe`-fil. Stäng appen innan du kopierar filen, så att säkerhetskopian blir komplett. Om du kör kommandot från appens mapp kan du kopiera databasen till skrivbordet så här:
+
+```powershell
+$backup = Join-Path ([Environment]::GetFolderPath("Desktop")) "Recipe-Book-backup.sqlite"
+Copy-Item ".\Recipe-Book.sqlite" $backup
+```
+
+För att återställa databasen stänger du appen och kopierar `Recipe-Book-backup.sqlite` tillbaka till appens `.exe`-mapp med namnet `Recipe-Book.sqlite`. Lägg appen i en mapp där din användare har skrivbehörighet; Windows skyddade mappar som `C:\Program Files` tillåter normalt inte appen att skapa databasen där.
+
+Om appen i stället är konfigurerad att använda SQL Server via Docker lagras recepten i SQL Server-containern, inte i SQLite-filen. Den här kopieringsinstruktionen gäller då inte; säkerhetskopiera SQL Server-databasen separat innan containern tas bort.
 
 ### Publicera en fristående Windows-app
 
