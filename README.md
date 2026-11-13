@@ -15,7 +15,7 @@
 
 **Recipe Book** är en modern WinForms-applikation byggd med .NET 10 och C# för att hantera recept, ingredienser och kategorier via ett grafiskt användargränssnitt. Du kan även skriva ut recept direkt från applikationen.
 
-Data lagras i en Microsoft SQL Server-databas och all databasinteraktion sker med Entity Framework Core för robust och asynkron hantering.
+Appen använder SQLite som standard och sparar databasen lokalt i användarens `LocalApplicationData`-mapp. Om miljövariabeln `RECIPE_BOOK_SQLSERVER` innehåller en anslutningssträng ansluter appen i stället till SQL Server, till exempel en SQL Server-container som körs via Docker.
 
 Applikationen är strukturerad i modulära klasser (Recipe, Ingredient, Category, RecipeIngredient, RecipeCategory) som kapslar in respektive domänfunktion. Tjänstelagret (RecipeService) hanterar CRUD-operationer och affärslogik, medan olika formulär (MainForm, CreateRecipeForm, EditRecipeForm, ShowForm) sköter UI och användarflöden. Utskriftsfunktionen finns i receptvyn.
 
@@ -71,53 +71,69 @@ RecipeBook/
 
 ## Systemkrav
 
-- .NET SDK 10 (Target Framework: `net10.0`)
-- Microsoft SQL Server (kan köras i Docker)
+- Windows 10/11 för den grafiska appen
+- .NET SDK 10 för utveckling och publicering
+- SQL Server krävs endast om du väljer den valfria SQL Server-anslutningen
 - Visual Studio eller VS Code med C#-stöd
 
 ---
 
 ## Installation
 
-### 1. Klona projektet
+### Köra appen lokalt
 
 ```bash
 git clone https://github.com/AlaaAlsous/recipebook.git
 ```
 
-### 2. Installera beroenden
+### Installera beroenden
 
-Se till att .NET SDK 10 är installerat.
+Installera .NET 10 SDK och återställ projektets NuGet-beroenden:
 
-### 3. Starta SQL Server med Docker (rekommenderas)
-
-```bash
-- docker pull mcr.microsoft.com/mssql/server:2022-latest
-
-- docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=Secret-Recipe-Book-Password!" -p 1433:1433 --name sqlserver -d mcr.microsoft.com/mssql/server:2022-latest
+```powershell
+dotnet restore ".\Recipe Book.csproj"
 ```
 
-Skapa databas och användare:
+Kör sedan appen:
 
-```bash
-- docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-Recipe-Book-Password!" -Q "CREATE DATABASE recipe_book_db;" -C
+```powershell
+dotnet run --project ".\Recipe Book.csproj"
+```
+Appen använder SQLite som standard. Databasen skapas automatiskt här:
 
-- docker exec -i sqlserver /opt/mssql-tools18/bin/sqlcmd -S localhost -U SA -P "Secret-Recipe-Book-Password!" -d recipe_book_db -Q "CREATE LOGIN [recipebook] WITH PASSWORD = 'Secret-Recipe-Book-Password!'; CREATE USER [recipebook] FOR LOGIN [recipebook]; ALTER ROLE db_owner ADD MEMBER [recipebook];" -C
+```text
+%LOCALAPPDATA%\Recipe Book\Recipe-Book.sqlite
 ```
 
-### 4. Applicera migrationer
+### Publicera en fristående Windows-app
 
-```bash
-dotnet tool install --global dotnet-ef
-
-dotnet ef database update
+```powershell
+dotnet publish ".\Recipe Book.csproj" -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
-### 5. Kör applikationen
+Den publicerade appen finns i `bin\Release\net10.0-windows\win-x64\publish\`.
 
-```bash
-dotnet run --project RecipeBook.csproj
+### Valfri SQL Server i Docker (utveckling)
+
+Appen startar inte Docker automatiskt. Skapa och starta först en SQL Server-container. I PowerShell anger du ett starkt lösenord och skapar containern så här:
+
+```powershell
+$saPassword = Read-Host "Ange ett starkt SQL Server SA-lösenord"
+docker run --name recipe-book-sql `
+  -e "ACCEPT_EULA=Y" `
+  -e "MSSQL_SA_PASSWORD=$saPassword" `
+  -p 1433:1433 `
+  -d mcr.microsoft.com/mssql/server:2022-latest
 ```
+
+Vänta tills SQL Server är redo, till exempel med `docker logs -f recipe-book-sql`, och avbryt loggvisningen med `Ctrl+C`. Anslut sedan appen till containern i samma PowerShell-fönster:
+
+```powershell
+$env:RECIPE_BOOK_SQLSERVER = "Server=localhost,1433;Database=recipe_book_db;User Id=sa;Password=$saPassword;TrustServerCertificate=True;Encrypt=True;"
+dotnet run --project ".\Recipe Book.csproj"
+```
+
+SQLite är standard. När `RECIPE_BOOK_SQLSERVER` är satt använder appen anslutningssträngen och väljer SQL Server; SQL Server-containern måste redan vara igång. Databasen skapas automatiskt vid första start. Docker-instruktionerna ovan är avsedda för lokal utveckling, inte för en publik appnedladdning. Om en anslutningssträng är angiven men SQL Server inte går att nå visas ett databasfel; appen byter inte tyst till SQLite.
 
 ---
 
@@ -186,17 +202,20 @@ Databasen är designad för att hantera recept, ingredienser och kategorier med 
 
 - Relationer och on-delete-beteenden konfigureras i `RecipeDbContext` med `modelBuilder` och `Fluent API`.
 - Unika namn för recept, ingredienser och kategorier säkerställs med `HasIndex(...).IsUnique()`.
-- Automatisk skapande av databas och tabeller via `EnsureCreated()`.
+- Databas och tabeller skapas vid första start via `EnsureCreated()`.
+- De befintliga migrationsfilerna är genererade för SQL Server och körs inte av appen. SQLite använder `EnsureCreated()` i stället.
 
 ---
 
 ## Teknisk miljö
 
 
-- Target Framework: `net10.0`
+- Target Framework: `net10.0-windows`
+- UI: Windows Forms
 - Paket:
   - `Microsoft.EntityFrameworkCore`
-  - `Microsoft.EntityFrameworkCore.SqlServer`
+  - `Microsoft.EntityFrameworkCore.Sqlite`
+  - `Microsoft.EntityFrameworkCore.SqlServer` (valfri SQL Server-anslutning)
   - `Microsoft.EntityFrameworkCore.Design`
 
 ---
